@@ -1,0 +1,39 @@
+dataset: card_tokens
+version: v1.0.0
+owner: payments-data-team
+description: PCI-compliant card tokenization mapping and expiration dates
+freshness_sla_minutes: 1440
+constraints:
+  min_rows: 50
+  primary_key: token_id
+columns:
+- name: token_id
+  type: string
+  nullable: false
+  unique: true
+  description: Card token identifier
+- name: customer_id
+  type: string
+  nullable: false
+  unique: false
+  description: Cardholder customer ID
+- name: card_brand
+  type: string
+  nullable: false
+  unique: false
+  description: Brand
+  allowed_values:
+  - VISA
+  - MASTERCARD
+  - AMEX
+  - DISCOVER
+- name: last_four
+  type: string
+  nullable: false
+  unique: false
+  description: Card last 4 digits
+- name: expiry_month_year
+  type: string
+  nullable: false
+  unique: false
+  description: Expiry format MM/YY

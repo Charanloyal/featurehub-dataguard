@@ -1,0 +1,33 @@
+dataset: temporal_behavioral_features
+version: v1.0.0
+owner: featurestore-team
+description: Customer lifestyle, weekend spending, and channel ratios
+freshness_sla_minutes: 1440
+constraints:
+  min_rows: 100
+  primary_key: customer_id
+columns:
+- name: customer_id
+  type: string
+  nullable: false
+  unique: true
+  description: Customer entity ID
+- name: feature_timestamp
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Observation time
+- name: cust_activity_score
+  type: float
+  nullable: false
+  unique: false
+  description: Engagement score
+  min: 0.0
+  max: 1.0
+- name: cust_night_owl_ratio_30d
+  type: float
+  nullable: false
+  unique: false
+  description: Night owl transaction ratio
+  min: 0.0
+  max: 1.0

@@ -1,0 +1,59 @@
+{
+  "system": {
+    "os": "Windows 11 (10.0.26200)",
+    "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel (16 logical cores @ 2300.0MHz)",
+    "ram_total_gb": 15.69,
+    "python_version": "3.13.9",
+    "great_expectations_version": "1.23.2",
+    "timestamp": "2026-10-03T11:01:31.681496+00:00"
+  },
+  "benchmarks": [
+    {
+      "dataset": "orders",
+      "row_count": 1000,
+      "iterations": 5,
+      "number_of_checks": 15,
+      "p50_ms": 143.19,
+      "p95_ms": 146.12,
+      "p99_ms": 146.36,
+      "mean_ms": 143.24,
+      "std_ms": 2.34,
+      "min_ms": 139.63,
+      "max_ms": 146.42,
+      "rows_per_second": 6981.52
+    },
+    {
+      "dataset": "orders",
+      "row_count": 10000,
+      "iterations": 5,
+      "number_of_checks": 15,
+      "p50_ms": 162.78,
+      "p95_ms": 259.11,
+      "p99_ms": 278.11,
+      "mean_ms": 186.26,
+      "std_ms": 48.32,
+      "min_ms": 159.73,
+      "max_ms": 282.87,
+      "rows_per_second": 53687.16
+    },
+    {
+      "dataset": "orders",
+      "row_count": 100000,
+      "iterations": 3,
+      "number_of_checks": 15,
+      "p50_ms": 274.44,
+      "p95_ms": 283.32,
+      "p99_ms": 284.11,
+      "mean_ms": 276.84,
+      "std_ms": 5.4,
+      "min_ms": 271.76,
+      "max_ms": 284.31,
+      "rows_per_second": 361223.04
+    }
+  ],
+  "summary": {
+    "total_benchmark_sizes": 3,
+    "max_rows_tested": 100000,
+    "engine": "Great Expectations 1.x"
+  }
+}

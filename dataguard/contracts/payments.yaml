@@ -1,0 +1,44 @@
+dataset: payments
+version: v1.0.0
+owner: payments-data-team
+description: Payment gateway settlement records
+freshness_sla_minutes: 30
+constraints:
+  min_rows: 10
+  primary_key: payment_id
+columns:
+- name: payment_id
+  type: string
+  nullable: false
+  unique: true
+  description: Payment settlement ID
+- name: order_id
+  type: string
+  nullable: false
+  unique: false
+  description: Order reference ID
+- name: payment_method
+  type: string
+  nullable: false
+  unique: false
+  description: Method
+  allowed_values:
+  - CREDIT_CARD
+  - DEBIT_CARD
+  - PAYPAL
+  - WIRE
+- name: status
+  type: string
+  nullable: false
+  unique: false
+  description: Settlement state
+  allowed_values:
+  - SETTLED
+  - PENDING
+  - FAILED
+  - REFUNDED
+- name: settled_at
+  type: timestamp
+  nullable: true
+  unique: false
+  description: Settlement timestamp

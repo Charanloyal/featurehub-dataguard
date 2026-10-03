@@ -1,0 +1,42 @@
+dataset: kyc_verification_logs
+version: v1.0.0
+owner: security-identity-team
+description: KYC identity check attempt logs and document status
+freshness_sla_minutes: 60
+constraints:
+  min_rows: 10
+  primary_key: verification_id
+columns:
+- name: verification_id
+  type: string
+  nullable: false
+  unique: true
+  description: KYC attempt ID
+- name: customer_id
+  type: string
+  nullable: false
+  unique: false
+  description: Target customer ID
+- name: document_type
+  type: string
+  nullable: false
+  unique: false
+  description: Doc type
+  allowed_values:
+  - PASSPORT
+  - DRIVERS_LICENSE
+  - NATIONAL_ID
+- name: verification_result
+  type: string
+  nullable: false
+  unique: false
+  description: Result
+  allowed_values:
+  - PASSED
+  - FAILED
+  - MANUAL_REVIEW
+- name: attempted_at
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Attempt timestamp

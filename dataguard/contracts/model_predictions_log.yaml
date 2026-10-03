@@ -1,0 +1,44 @@
+dataset: model_predictions_log
+version: v1.0.0
+owner: ml-platform-team
+description: Real-time ML inference prediction logs and fraud risk scores
+freshness_sla_minutes: 15
+constraints:
+  min_rows: 100
+  primary_key: prediction_id
+columns:
+- name: prediction_id
+  type: string
+  nullable: false
+  unique: true
+  description: Prediction event ID
+- name: customer_id
+  type: string
+  nullable: false
+  unique: false
+  description: Customer ID
+- name: risk_score
+  type: float
+  nullable: false
+  unique: false
+  description: ML fraud probability
+  min: 0.0
+  max: 1.0
+- name: prediction
+  type: integer
+  nullable: false
+  unique: false
+  description: Flag (0=Approve, 1=Fraud)
+  allowed_values:
+  - 0
+  - 1
+- name: model_version
+  type: string
+  nullable: false
+  unique: false
+  description: Model artifact version
+- name: created_at
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Inference timestamp

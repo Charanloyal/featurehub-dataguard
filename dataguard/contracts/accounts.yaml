@@ -1,0 +1,43 @@
+dataset: accounts
+version: v1.0.0
+owner: banking-data-team
+description: Customer bank accounts and balance ledgers
+freshness_sla_minutes: 60
+constraints:
+  min_rows: 100
+  primary_key: account_id
+  foreign_keys:
+  - column: customer_id
+    references: customers.customer_id
+columns:
+- name: account_id
+  type: string
+  nullable: false
+  unique: true
+  description: Unique account identifier acc_XXXXXX
+- name: customer_id
+  type: string
+  nullable: false
+  unique: false
+  description: Owner customer identifier
+- name: account_type
+  type: string
+  nullable: false
+  unique: false
+  description: Product account type
+  allowed_values:
+  - CHECKING
+  - SAVINGS
+  - CREDIT
+- name: created_at
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Account opening timestamp
+- name: current_balance
+  type: numeric
+  nullable: false
+  unique: false
+  description: Current ledger balance in USD
+  min: -10000.0
+  max: 10000000.0

@@ -1,0 +1,41 @@
+dataset: user_sessions
+version: v1.0.0
+owner: app-platform-team
+description: App active session tokens, durations, and payment channels
+freshness_sla_minutes: 15
+constraints:
+  min_rows: 50
+  primary_key: session_id
+columns:
+- name: session_id
+  type: string
+  nullable: false
+  unique: true
+  description: Session token ID
+- name: customer_id
+  type: string
+  nullable: false
+  unique: false
+  description: Customer ID
+- name: channel
+  type: string
+  nullable: false
+  unique: false
+  description: Session channel
+  allowed_values:
+  - WEB
+  - MOBILE_APP
+  - POS
+  - ATM
+  - WIRE
+- name: duration_seconds
+  type: integer
+  nullable: false
+  unique: false
+  description: Session duration
+  min: 0
+- name: created_at
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Session start timestamp

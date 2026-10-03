@@ -1,0 +1,20 @@
+{
+  "benchmark_name": "DataGuard Governance & CI Engine",
+  "timestamp": "2026-10-02T15:33:17.956435+00:00",
+  "total_contracts_validated": 25,
+  "contract_parsing_duration_ms": 41.039,
+  "schema_diff": {
+    "total_diff_simulations": 100,
+    "p50_latency_ms": 0.0055,
+    "p95_latency_ms": 0.0118,
+    "p99_latency_ms": 0.0169,
+    "breaking_changes_detected": 50,
+    "breaking_changes_blocked_ratio": 1.0
+  },
+  "data_quality": {
+    "dataset_rows_validated": 500,
+    "validation_duration_ms": 7.965,
+    "total_checks_executed": 9,
+    "passed_checks": 9
+  }
+}

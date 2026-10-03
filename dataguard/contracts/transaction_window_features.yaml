@@ -1,0 +1,33 @@
+dataset: transaction_window_features
+version: v1.0.0
+owner: featurestore-team
+description: Windowed transaction velocity statistics and ratio comparisons
+freshness_sla_minutes: 15
+constraints:
+  min_rows: 100
+  primary_key: transaction_id
+columns:
+- name: transaction_id
+  type: string
+  nullable: false
+  unique: true
+  description: Target transaction ID
+- name: feature_timestamp
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Event timestamp
+- name: txn_amount_to_cust_avg_ratio_7d
+  type: float
+  nullable: false
+  unique: false
+  description: Amount vs customer 7d avg ratio
+  min: 0.0
+- name: txn_is_night_time_flag
+  type: integer
+  nullable: false
+  unique: false
+  description: Night time transaction flag
+  allowed_values:
+  - 0
+  - 1

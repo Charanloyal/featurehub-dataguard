@@ -1,0 +1,36 @@
+name: Platform CI & Quality Gates
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Ruff Linter
+        run: ruff check .
+
+      - name: Validate 25 Data Contracts
+        run: |
+          python scripts/create_contracts.py
+          python dataguard/benchmarks/run_benchmarks.py
+
+      - name: Run Schema Diff Engine & Check Breaking Changes
+        run: |
+          python -m pytest dataguard/tests/test_schema_diff.py -v

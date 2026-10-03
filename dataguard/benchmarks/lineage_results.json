@@ -1,0 +1,75 @@
+{
+  "system": {
+    "os": "Windows 11 (10.0.26200)",
+    "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel (16 logical cores @ 2300.0MHz)",
+    "ram_total_gb": 15.69,
+    "python_version": "3.13.9",
+    "postgres_version": "PostgreSQL 16.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+    "timestamp": "2026-10-03T11:49:29.413882+00:00"
+  },
+  "graph_state": {
+    "total_nodes": 26,
+    "total_edges": 54,
+    "total_datasets": 15,
+    "total_jobs": 11,
+    "total_runs": 31,
+    "total_column_mappings": 60
+  },
+  "benchmarks": {
+    "event_ingestion": {
+      "p50_ms": 203.45,
+      "p95_ms": 242.79,
+      "p99_ms": 271.78,
+      "mean_ms": 208.11,
+      "std_ms": 19.27,
+      "min_ms": 188.65,
+      "max_ms": 279.69,
+      "operations_per_second": 4.81
+    },
+    "lineage_graph_query": {
+      "p50_ms": 7.39,
+      "p95_ms": 14.71,
+      "p99_ms": 16.61,
+      "mean_ms": 8.54,
+      "std_ms": 2.8,
+      "min_ms": 5.62,
+      "max_ms": 17.01,
+      "operations_per_second": 117.16
+    },
+    "upstream_traversal": {
+      "p50_ms": 6.44,
+      "p95_ms": 7.93,
+      "p99_ms": 8.27,
+      "mean_ms": 6.59,
+      "std_ms": 0.71,
+      "min_ms": 5.71,
+      "max_ms": 8.35,
+      "operations_per_second": 151.67
+    },
+    "downstream_traversal": {
+      "p50_ms": 6.75,
+      "p95_ms": 8.19,
+      "p99_ms": 8.3,
+      "mean_ms": 6.77,
+      "std_ms": 0.79,
+      "min_ms": 5.56,
+      "max_ms": 8.32,
+      "operations_per_second": 147.67
+    },
+    "column_lineage_query": {
+      "p50_ms": 3.86,
+      "p95_ms": 5.16,
+      "p99_ms": 5.43,
+      "mean_ms": 3.94,
+      "std_ms": 0.59,
+      "min_ms": 3.17,
+      "max_ms": 5.5,
+      "operations_per_second": 253.67
+    }
+  },
+  "summary": {
+    "sample_size": 25,
+    "persistence_backend": "PostgreSQL 16",
+    "standard": "OpenLineage 1.0.5 compliant JSON"
+  }
+}

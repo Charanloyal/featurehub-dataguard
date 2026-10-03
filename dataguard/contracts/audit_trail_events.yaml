@@ -1,0 +1,40 @@
+dataset: audit_trail_events
+version: v1.0.0
+owner: security-governance-team
+description: Platform security access and schema modification audit events log
+freshness_sla_minutes: 15
+constraints:
+  min_rows: 10
+  primary_key: audit_id
+columns:
+- name: audit_id
+  type: string
+  nullable: false
+  unique: true
+  description: Audit event ID
+- name: user_id
+  type: string
+  nullable: false
+  unique: false
+  description: Actor user ID
+- name: action
+  type: string
+  nullable: false
+  unique: false
+  description: Performed action
+  allowed_values:
+  - CREATE
+  - UPDATE
+  - DELETE
+  - ACCESS
+  - CONTRACT_DIFF
+- name: target_resource
+  type: string
+  nullable: false
+  unique: false
+  description: Target dataset / API
+- name: timestamp
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Event timestamp

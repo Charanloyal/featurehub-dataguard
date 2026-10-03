@@ -1,0 +1,44 @@
+dataset: chargeback_disputes
+version: v1.0.0
+owner: fraud-analytics-team
+description: Credit card chargeback filings and dispute statuses
+freshness_sla_minutes: 720
+constraints:
+  min_rows: 5
+  primary_key: dispute_id
+columns:
+- name: dispute_id
+  type: string
+  nullable: false
+  unique: true
+  description: Dispute filing ID
+- name: transaction_id
+  type: string
+  nullable: false
+  unique: false
+  description: Disputed transaction ID
+- name: dispute_reason
+  type: string
+  nullable: false
+  unique: false
+  description: Reason
+  allowed_values:
+  - FRAUDULENT
+  - UNRECOGNIZED
+  - PRODUCT_NOT_RECEIVED
+  - DUPLICATE
+- name: status
+  type: string
+  nullable: false
+  unique: false
+  description: Dispute status
+  allowed_values:
+  - OPEN
+  - WON
+  - LOST
+  - UNDER_REVIEW
+- name: filed_at
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Filing timestamp

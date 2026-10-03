@@ -1,0 +1,165 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: featurehub_dataguard_postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-platform_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-platform_secure_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-featurehub_dataguard}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infrastructure/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-platform_admin} -d ${POSTGRES_DB:-featurehub_dataguard}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: featurehub_dataguard_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  airflow:
+    image: apache/airflow:2.9.0-python3.12
+    container_name: featurehub_dataguard_airflow
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER:-platform_admin}:${POSTGRES_PASSWORD:-platform_secure_pass}@postgres:5432/${POSTGRES_DB:-featurehub_dataguard}
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__CORE__FERNET_KEY=46ExTH2ZsRkgYixWvc34wGEeeCzFB8qzgFIq2yEeCSQ=
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER:-platform_admin}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-platform_secure_pass}
+      - POSTGRES_DB=${POSTGRES_DB:-featurehub_dataguard}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-platform_admin}:${POSTGRES_PASSWORD:-platform_secure_pass}@postgres:5432/${POSTGRES_DB:-featurehub_dataguard}
+      - PYTHONPATH=/opt/airflow/repo:/opt/airflow/plugins
+      - _PIP_ADDITIONAL_REQUIREMENTS=great-expectations pyyaml structlog redis
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./pipelines/airflow/dags:/opt/airflow/dags
+      - ./pipelines/airflow/plugins:/opt/airflow/plugins
+      - .:/opt/airflow/repo
+    command: standalone
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  featurehub-api:
+    build:
+      context: .
+      dockerfile: infrastructure/Dockerfile.api
+    container_name: featurehub_api
+    command: uvicorn featurehub.api.main:app --host 0.0.0.0 --port 8000
+    environment:
+      - ENVIRONMENT=production
+      - POSTGRES_HOST=postgres
+      - REDIS_HOST=redis
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  dataguard-api:
+    build:
+      context: .
+      dockerfile: infrastructure/Dockerfile.api
+    container_name: dataguard_api
+    command: uvicorn dataguard.api.main:app --host 0.0.0.0 --port 8001
+    environment:
+      - ENVIRONMENT=production
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - POSTGRES_USER=${POSTGRES_USER:-platform_admin}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-platform_secure_pass}
+      - POSTGRES_DB=${POSTGRES_DB:-featurehub_dataguard}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-platform_admin}:${POSTGRES_PASSWORD:-platform_secure_pass}@postgres:5432/${POSTGRES_DB:-featurehub_dataguard}
+    ports:
+      - "8001:8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  featurehub-dashboard:
+    build:
+      context: .
+      dockerfile: infrastructure/Dockerfile.dashboard
+    container_name: featurehub_dashboard
+    command: streamlit run apps/featurehub-dashboard/app.py --server.port=8501 --server.address=0.0.0.0
+    ports:
+      - "8501:8501"
+    depends_on:
+      - featurehub-api
+    restart: unless-stopped
+
+  dataguard-dashboard:
+    build:
+      context: .
+      dockerfile: infrastructure/Dockerfile.dashboard
+    container_name: dataguard_dashboard
+    command: streamlit run apps/dataguard-dashboard/app.py --server.port=8502 --server.address=0.0.0.0
+    ports:
+      - "8502:8502"
+    depends_on:
+      - dataguard-api
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.50.1
+    container_name: featurehub_dataguard_prometheus
+    volumes:
+      - ./infrastructure/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:10.3.3
+    container_name: featurehub_dataguard_grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./infrastructure/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  grafana_data:

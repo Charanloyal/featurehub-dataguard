@@ -1,0 +1,36 @@
+dataset: daily_customer_aggregates
+version: v1.0.0
+owner: analytics-data-team
+description: Daily aggregated spending summaries per customer
+freshness_sla_minutes: 1440
+constraints:
+  min_rows: 50
+  primary_key: aggregate_id
+columns:
+- name: aggregate_id
+  type: string
+  nullable: false
+  unique: true
+  description: Aggregate ID
+- name: customer_id
+  type: string
+  nullable: false
+  unique: false
+  description: Customer ID
+- name: date
+  type: string
+  nullable: false
+  unique: false
+  description: Aggregation date YYYY-MM-DD
+- name: daily_spend_usd
+  type: numeric
+  nullable: false
+  unique: false
+  description: Total spend USD
+  min: 0.0
+- name: daily_txn_count
+  type: integer
+  nullable: false
+  unique: false
+  description: Total transaction count
+  min: 0

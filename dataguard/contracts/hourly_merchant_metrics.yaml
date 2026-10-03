@@ -1,0 +1,37 @@
+dataset: hourly_merchant_metrics
+version: v1.0.0
+owner: analytics-data-team
+description: Hourly merchant transaction volume and decline rates rollup
+freshness_sla_minutes: 60
+constraints:
+  min_rows: 50
+  primary_key: metric_id
+columns:
+- name: metric_id
+  type: string
+  nullable: false
+  unique: true
+  description: Metric rollup ID
+- name: merchant_id
+  type: string
+  nullable: false
+  unique: false
+  description: Merchant ID
+- name: hour_timestamp
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Hour boundary timestamp
+- name: hourly_volume_usd
+  type: numeric
+  nullable: false
+  unique: false
+  description: Volume USD
+  min: 0.0
+- name: decline_rate
+  type: float
+  nullable: false
+  unique: false
+  description: Decline rate
+  min: 0.0
+  max: 1.0

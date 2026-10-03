@@ -1,0 +1,66 @@
+{
+  "timestamp": "2026-10-03T10:26:08.511926+00:00",
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.13.9",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "machine": "AMD64",
+    "system": "Windows"
+  },
+  "benchmark_parameters": {
+    "iterations_per_scale": 100,
+    "warmup_runs": 10,
+    "scales_tested": [
+      10,
+      50,
+      100,
+      250
+    ]
+  },
+  "measurements": {
+    "10_columns": {
+      "columns": 10,
+      "p50_ms": 0.0673,
+      "p95_ms": 0.1808,
+      "p99_ms": 0.244,
+      "mean_ms": 0.1025,
+      "min_ms": 0.061,
+      "max_ms": 0.4987,
+      "total_changes_detected": 4,
+      "classification": "BREAKING"
+    },
+    "50_columns": {
+      "columns": 50,
+      "p50_ms": 0.1946,
+      "p95_ms": 0.3051,
+      "p99_ms": 0.3335,
+      "mean_ms": 0.2063,
+      "min_ms": 0.1896,
+      "max_ms": 0.3547,
+      "total_changes_detected": 9,
+      "classification": "BREAKING"
+    },
+    "100_columns": {
+      "columns": 100,
+      "p50_ms": 0.3723,
+      "p95_ms": 0.4192,
+      "p99_ms": 0.5251,
+      "mean_ms": 0.382,
+      "min_ms": 0.3578,
+      "max_ms": 0.5827,
+      "total_changes_detected": 16,
+      "classification": "BREAKING"
+    },
+    "250_columns": {
+      "columns": 250,
+      "p50_ms": 0.8774,
+      "p95_ms": 1.4788,
+      "p99_ms": 1.6167,
+      "mean_ms": 0.9521,
+      "min_ms": 0.8545,
+      "max_ms": 1.7498,
+      "total_changes_detected": 39,
+      "classification": "BREAKING"
+    }
+  }
+}

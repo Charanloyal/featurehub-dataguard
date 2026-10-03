@@ -1,0 +1,39 @@
+dataset: ip_geolocation
+version: v1.0.0
+owner: security-team
+description: IP address lookup table with ASN, country, and risk index
+freshness_sla_minutes: 1440
+constraints:
+  min_rows: 50
+  primary_key: ip_address
+columns:
+- name: ip_address
+  type: string
+  nullable: false
+  unique: true
+  description: IPv4 / IPv6 address
+- name: country_code
+  type: string
+  nullable: false
+  unique: false
+  description: Geographic country
+- name: isp_asn
+  type: string
+  nullable: false
+  unique: false
+  description: Autonomous System Number
+- name: is_proxy_vpn_flag
+  type: integer
+  nullable: false
+  unique: false
+  description: VPN/Proxy flag
+  allowed_values:
+  - 0
+  - 1
+- name: ip_risk_score
+  type: float
+  nullable: false
+  unique: false
+  description: IP risk score
+  min: 0.0
+  max: 1.0

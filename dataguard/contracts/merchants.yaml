@@ -1,0 +1,44 @@
+dataset: merchants
+version: v1.0.0
+owner: merchant-analytics-team
+description: Merchant catalog and risk scoring profiles
+freshness_sla_minutes: 1440
+constraints:
+  min_rows: 50
+  primary_key: merchant_id
+columns:
+- name: merchant_id
+  type: string
+  nullable: false
+  unique: true
+  description: Unique merchant identifier merch_XXXXX
+- name: merchant_category
+  type: string
+  nullable: false
+  unique: false
+  description: MCC Category name
+  allowed_values:
+  - RETAIL
+  - TRAVEL
+  - GAMBLING
+  - CRYPTO
+  - ELECTRONICS
+  - DINING
+  - SERVICES
+- name: risk_score
+  type: float
+  nullable: false
+  unique: false
+  description: Risk score between 0.0 and 1.0
+  min: 0.0
+  max: 1.0
+- name: country
+  type: string
+  nullable: false
+  unique: false
+  description: Merchant registration country
+- name: created_at
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Registration date

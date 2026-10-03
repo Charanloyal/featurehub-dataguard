@@ -1,0 +1,41 @@
+dataset: orders
+version: v1.0.0
+owner: e-commerce-data-team
+description: Customer e-commerce purchase orders
+freshness_sla_minutes: 60
+constraints:
+  min_rows: 10
+  primary_key: order_id
+columns:
+- name: order_id
+  type: string
+  nullable: false
+  unique: true
+  description: Unique purchase order ID
+- name: customer_id
+  type: string
+  nullable: false
+  unique: false
+  description: Purchasing customer ID
+- name: order_total
+  type: numeric
+  nullable: false
+  unique: false
+  description: Total order amount
+  min: 0.0
+  max: 100000.0
+- name: currency
+  type: string
+  nullable: false
+  unique: false
+  description: Currency code
+  allowed_values:
+  - USD
+  - EUR
+  - GBP
+  - CAD
+- name: created_at
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Order placement time

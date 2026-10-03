@@ -1,0 +1,37 @@
+dataset: order_items
+version: v1.0.0
+owner: e-commerce-data-team
+description: Individual line items per order
+freshness_sla_minutes: 60
+constraints:
+  min_rows: 10
+  primary_key: item_id
+columns:
+- name: item_id
+  type: string
+  nullable: false
+  unique: true
+  description: Line item identifier
+- name: order_id
+  type: string
+  nullable: false
+  unique: false
+  description: Parent order ID
+- name: product_id
+  type: string
+  nullable: false
+  unique: false
+  description: Product catalog ID
+- name: quantity
+  type: integer
+  nullable: false
+  unique: false
+  description: Unit item quantity
+  min: 1
+  max: 100
+- name: unit_price
+  type: numeric
+  nullable: false
+  unique: false
+  description: Price per item
+  min: 0.01

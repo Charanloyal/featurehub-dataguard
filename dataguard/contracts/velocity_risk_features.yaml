@@ -1,0 +1,32 @@
+dataset: velocity_risk_features
+version: v1.0.0
+owner: featurestore-team
+description: Composite non-linear risk and velocity indicators
+freshness_sla_minutes: 15
+constraints:
+  min_rows: 100
+  primary_key: customer_id
+columns:
+- name: customer_id
+  type: string
+  nullable: false
+  unique: true
+  description: Customer entity ID
+- name: feature_timestamp
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Observation time
+- name: cust_risk_velocity_composite
+  type: float
+  nullable: false
+  unique: false
+  description: Risk composite score
+  min: 0.0
+  max: 1.0
+- name: burst_txn_count_10min
+  type: integer
+  nullable: false
+  unique: false
+  description: 10-minute burst count
+  min: 0

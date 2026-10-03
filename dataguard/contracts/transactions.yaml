@@ -1,0 +1,69 @@
+dataset: transactions
+version: v1.0.0
+owner: payments-data-team
+description: Real-time payment transaction event log
+freshness_sla_minutes: 15
+constraints:
+  min_rows: 500
+  primary_key: transaction_id
+columns:
+- name: transaction_id
+  type: string
+  nullable: false
+  unique: true
+  description: Unique transaction event ID txn_XXXXXXXX
+- name: customer_id
+  type: string
+  nullable: false
+  unique: false
+  description: Customer ID executing payment
+- name: account_id
+  type: string
+  nullable: false
+  unique: false
+  description: Debited account ID
+- name: merchant_id
+  type: string
+  nullable: false
+  unique: false
+  description: Receiving merchant ID
+- name: amount
+  type: numeric
+  nullable: false
+  unique: false
+  description: Transaction amount in USD
+  min: 0.01
+  max: 500000.0
+- name: timestamp
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Event timestamp in UTC
+- name: status
+  type: string
+  nullable: false
+  unique: false
+  description: Authorization status
+  allowed_values:
+  - APPROVED
+  - FAILED
+  - REJECTED
+- name: channel
+  type: string
+  nullable: false
+  unique: false
+  description: Initiating payment channel
+  allowed_values:
+  - WEB
+  - MOBILE_APP
+  - POS
+  - ATM
+  - WIRE
+- name: is_fraud
+  type: integer
+  nullable: false
+  unique: false
+  description: Ground truth fraud label (0=Normal, 1=Fraud)
+  allowed_values:
+  - 0
+  - 1

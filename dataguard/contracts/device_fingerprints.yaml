@@ -1,0 +1,40 @@
+dataset: device_fingerprints
+version: v1.0.0
+owner: security-team
+description: Mobile & Web device user agent and hardware fingerprint logs
+freshness_sla_minutes: 15
+constraints:
+  min_rows: 100
+  primary_key: device_id
+columns:
+- name: device_id
+  type: string
+  nullable: false
+  unique: true
+  description: Device hash identifier
+- name: customer_id
+  type: string
+  nullable: false
+  unique: false
+  description: Associated customer
+- name: os_family
+  type: string
+  nullable: false
+  unique: false
+  description: OS
+  allowed_values:
+  - IOS
+  - ANDROID
+  - WINDOWS
+  - MACOS
+  - LINUX
+- name: browser
+  type: string
+  nullable: false
+  unique: false
+  description: Browser name
+- name: first_seen_at
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Device registration time

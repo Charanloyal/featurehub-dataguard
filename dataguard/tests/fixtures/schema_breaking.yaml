@@ -1,0 +1,41 @@
+dataset: orders
+version: v2.0.0
+owner: checkout-team
+description: Orders placement contract v2 breaking revision
+freshness_sla_minutes: 60
+status: ACTIVE
+columns:
+  - name: order_id
+    type: string
+    nullable: false
+    unique: true
+    description: Unique order identifier UUID
+  - name: customer_id
+    type: string
+    nullable: false
+    unique: false
+    description: ID of purchasing customer changed to string UUID
+  - name: amount
+    type: numeric
+    nullable: false
+    unique: false
+    min: 0.01
+    max: 10000.0
+    description: Total payment amount in USD
+  - name: status
+    type: string
+    nullable: false
+    unique: false
+    allowed_values:
+      - pending
+      - paid
+      - cancelled
+    description: Current status of order
+  - name: created_at
+    type: timestamp
+    nullable: false
+    unique: false
+    description: Order creation ISO-8601 timestamp
+constraints:
+  - order_id IS NOT NULL
+  - amount >= 0.01

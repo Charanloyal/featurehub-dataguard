@@ -1,0 +1,51 @@
+dataset: orders
+version: v1.1.0
+owner: checkout-team
+description: Orders placement and payment lifecycle contract with required currency
+freshness_sla_minutes: 30
+status: ACTIVE
+columns:
+  - name: order_id
+    type: string
+    nullable: false
+    unique: true
+    description: Unique order identifier UUID
+  - name: customer_id
+    type: integer
+    nullable: false
+    unique: false
+    description: ID of purchasing customer
+  - name: amount
+    type: numeric
+    nullable: false
+    unique: false
+    min: 1.00
+    max: 5000.0
+    description: Total payment amount in USD
+  - name: status
+    type: string
+    nullable: false
+    unique: false
+    allowed_values:
+      - pending
+      - paid
+      - cancelled
+    description: Current status of order
+  - name: created_at
+    type: timestamp
+    nullable: false
+    unique: false
+    description: Order creation ISO-8601 timestamp
+  - name: notes
+    type: string
+    nullable: true
+    unique: false
+    description: Optional customer delivery instructions
+  - name: currency
+    type: string
+    nullable: false
+    unique: false
+    description: ISO currency code (mandatory)
+constraints:
+  - order_id IS NOT NULL
+  - amount >= 0.01

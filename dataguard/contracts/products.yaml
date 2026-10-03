@@ -1,0 +1,36 @@
+dataset: products
+version: v1.0.0
+owner: catalog-data-team
+description: Product catalog and pricing
+freshness_sla_minutes: 1440
+constraints:
+  min_rows: 20
+  primary_key: product_id
+columns:
+- name: product_id
+  type: string
+  nullable: false
+  unique: true
+  description: Product ID
+- name: name
+  type: string
+  nullable: false
+  unique: false
+  description: Product title
+- name: category
+  type: string
+  nullable: false
+  unique: false
+  description: Category name
+- name: price
+  type: numeric
+  nullable: false
+  unique: false
+  description: Current retail price
+  min: 0.01
+- name: stock_quantity
+  type: integer
+  nullable: false
+  unique: false
+  description: Inventory stock
+  min: 0

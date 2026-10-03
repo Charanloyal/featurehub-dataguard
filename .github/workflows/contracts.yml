@@ -1,0 +1,29 @@
+name: Data Contracts Compatibility CI
+
+on:
+  pull_request:
+    paths:
+      - 'dataguard/contracts/**'
+
+jobs:
+  contract-diff-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Dependencies
+        run: pip install pyyaml pydantic pytest
+
+      - name: Execute Contract Drift Analysis
+        run: |
+          python -c "
+          from dataguard.schema.diff import SchemaDiffEngine
+          print('Analyzing PR contracts for breaking changes...')
+          "

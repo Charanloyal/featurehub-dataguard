@@ -1,0 +1,37 @@
+dataset: customer_features
+version: v1.0.0
+owner: featurestore-team
+description: FeatureHub customer windowed aggregates and velocity features
+freshness_sla_minutes: 60
+constraints:
+  min_rows: 100
+  primary_key: customer_id
+columns:
+- name: customer_id
+  type: string
+  nullable: false
+  unique: true
+  description: Entity ID
+- name: feature_timestamp
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Observation time
+- name: cust_txn_count_1h
+  type: integer
+  nullable: false
+  unique: false
+  description: 1-hour transaction count
+  min: 0
+- name: cust_txn_count_24h
+  type: integer
+  nullable: false
+  unique: false
+  description: 24-hour transaction count
+  min: 0
+- name: cust_txn_amount_sum_24h
+  type: float
+  nullable: false
+  unique: false
+  description: 24-hour spend volume
+  min: 0.0

@@ -1,0 +1,40 @@
+{
+  "benchmark_name": "FeatureHub Production Latency & Throughput Benchmark",
+  "timestamp": "2026-10-02T16:28:53.995899+00:00",
+  "methodology": {
+    "num_requests": 1000,
+    "warmup_requests": 100,
+    "timer": "time.perf_counter() (High Resolution Monotonic)",
+    "storage_target": "Redis Container Socket (TCP)",
+    "http_endpoint_target": "http://127.0.0.1:8010/predict"
+  },
+  "environment": {
+    "os": "Windows 11",
+    "python_version": "3.14.3",
+    "cpu_count_logical": 16,
+    "total_ram_gb": 15.69,
+    "redis_connected": true,
+    "dataset_feature_count": 122
+  },
+  "online_store_retrieval": {
+    "storage_type": "Redis Container Socket (TCP)",
+    "cache_hit_rate": 0.65,
+    "p50_latency_ms": 0.1087,
+    "p95_latency_ms": 0.19405,
+    "p99_latency_ms": 0.27882,
+    "min_latency_ms": 0.0722,
+    "max_latency_ms": 0.3987,
+    "mean_latency_ms": 0.11446
+  },
+  "end_to_end_http_prediction_api": {
+    "api_endpoint": "http://127.0.0.1:8010/predict",
+    "status": "OPERATIONAL",
+    "requests_per_second": 575.66,
+    "p50_latency_ms": 1.6604,
+    "p95_latency_ms": 2.093,
+    "p99_latency_ms": 2.8408,
+    "min_latency_ms": 1.4134,
+    "max_latency_ms": 17.1266,
+    "mean_latency_ms": 1.7264
+  }
+}

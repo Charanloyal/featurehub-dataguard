@@ -1,0 +1,44 @@
+dataset: customers
+version: v1.0.0
+owner: customer-data-team
+description: Core customer identity profile, KYC verification state, and credit risk
+  tiering
+freshness_sla_minutes: 1440
+constraints:
+  min_rows: 100
+  primary_key: customer_id
+columns:
+- name: customer_id
+  type: string
+  nullable: false
+  unique: true
+  description: Unique global customer identifier format cust_XXXXXX
+- name: created_at
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Timestamp when customer account was opened
+- name: kyc_status
+  type: string
+  nullable: false
+  unique: false
+  description: KYC identity status
+  allowed_values:
+  - VERIFIED
+  - PENDING
+  - ENHANCED_DUE_DILIGENCE
+- name: risk_tier
+  type: string
+  nullable: false
+  unique: false
+  description: Internal fraud risk classification
+  allowed_values:
+  - LOW
+  - MEDIUM
+  - HIGH
+  - CRITICAL
+- name: country
+  type: string
+  nullable: false
+  unique: false
+  description: ISO 2-letter country code of customer residence

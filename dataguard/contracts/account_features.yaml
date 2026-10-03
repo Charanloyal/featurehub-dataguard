@@ -1,0 +1,34 @@
+dataset: account_features
+version: v1.0.0
+owner: featurestore-team
+description: FeatureHub account drain and balance velocity indicators
+freshness_sla_minutes: 60
+constraints:
+  min_rows: 100
+  primary_key: account_id
+columns:
+- name: account_id
+  type: string
+  nullable: false
+  unique: true
+  description: Entity ID
+- name: feature_timestamp
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Observation time
+- name: acc_balance_ratio_24h
+  type: float
+  nullable: false
+  unique: false
+  description: Spend to balance ratio
+  min: 0.0
+  max: 10.0
+- name: acc_is_overdrawn_flag
+  type: integer
+  nullable: false
+  unique: false
+  description: Overdraft flag
+  allowed_values:
+  - 0
+  - 1

@@ -1,0 +1,71 @@
+{
+  "system": {
+    "os": "Windows 11 (10.0.26200)",
+    "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel (16 logical cores @ 2300.0MHz)",
+    "ram_total_gb": 15.69,
+    "python_version": "3.13.9",
+    "postgres_version": "PostgreSQL 16.15 on x86_64-pc-linux-musl",
+    "timestamp": "2026-10-03T11:28:00.489982+00:00"
+  },
+  "database": {
+    "total_incidents": 32,
+    "total_events": 94
+  },
+  "benchmarks": {
+    "incident_creation": {
+      "p50_ms": 13.1,
+      "p95_ms": 16.54,
+      "p99_ms": 27.41,
+      "mean_ms": 13.91,
+      "std_ms": 3.65,
+      "min_ms": 11.73,
+      "max_ms": 30.84,
+      "operations_per_second": 71.91
+    },
+    "duplicate_processing_deduplication": {
+      "p50_ms": 8.27,
+      "p95_ms": 9.97,
+      "p99_ms": 33.49,
+      "mean_ms": 9.76,
+      "std_ms": 6.4,
+      "min_ms": 7.43,
+      "max_ms": 40.9,
+      "operations_per_second": 102.48
+    },
+    "incident_query": {
+      "p50_ms": 76.96,
+      "p95_ms": 81.24,
+      "p99_ms": 82.65,
+      "mean_ms": 77.63,
+      "std_ms": 1.99,
+      "min_ms": 75.06,
+      "max_ms": 83.08,
+      "operations_per_second": 12.88
+    },
+    "incident_acknowledgement": {
+      "p50_ms": 13.37,
+      "p95_ms": 15.35,
+      "p99_ms": 16.71,
+      "mean_ms": 13.68,
+      "std_ms": 0.96,
+      "min_ms": 12.75,
+      "max_ms": 17.12,
+      "operations_per_second": 73.12
+    },
+    "incident_resolution": {
+      "p50_ms": 13.71,
+      "p95_ms": 17.68,
+      "p99_ms": 18.52,
+      "mean_ms": 14.28,
+      "std_ms": 1.49,
+      "min_ms": 12.91,
+      "max_ms": 18.76,
+      "operations_per_second": 70.04
+    }
+  },
+  "summary": {
+    "sample_size": 25,
+    "persistence_backend": "PostgreSQL 16",
+    "deduplication_engine": "Deterministic SHA-256 Signature"
+  }
+}

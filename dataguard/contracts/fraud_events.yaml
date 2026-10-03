@@ -1,0 +1,39 @@
+dataset: fraud_events
+version: v1.0.0
+owner: fraud-analytics-team
+description: Confirmed fraud case investigation registry
+freshness_sla_minutes: 120
+constraints:
+  min_rows: 5
+  primary_key: event_id
+columns:
+- name: event_id
+  type: string
+  nullable: false
+  unique: true
+  description: Fraud case event ID fevt_XXXXXX
+- name: transaction_id
+  type: string
+  nullable: false
+  unique: false
+  description: Target transaction ID
+- name: customer_id
+  type: string
+  nullable: false
+  unique: false
+  description: Fraudulent customer ID
+- name: fraud_type
+  type: string
+  nullable: false
+  unique: false
+  description: Typology
+  allowed_values:
+  - ACCOUNT_TAKEOVER
+  - CARD_TESTING
+  - IDENTITY_THEFT
+  - CHARGEBACK_FRAUD
+- name: confirmed_at
+  type: timestamp
+  nullable: false
+  unique: false
+  description: Confirmation timestamp
