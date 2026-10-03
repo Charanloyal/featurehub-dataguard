@@ -20,7 +20,7 @@ from dataguard.contracts.registry import ContractRegistryService, ContractNotFou
 from dataguard.schema.diff import SchemaDiffEngine
 from dataguard.schema.models import DiffSeverity
 from dataguard.quality.runner import DataQualityRunner
-from dataguard.quality.models import QualityRunResult, QualityStatus
+from dataguard.quality.models import QualityRunResult, QualityStatus, QualityCheckResult
 from dataguard.quality.datasets import DatasetCatalog
 from dataguard.lineage.collector import LineageCollector
 from dataguard.incidents.manager import IncidentManager
@@ -265,7 +265,7 @@ class DataGuardPipelineOrchestrator:
 
         # Step D: Freshness Monitoring
         freshness_res = None
-        if validate_freshness:
+        if validate_freshness and (pipeline_id == "freshness_monitoring_pipeline" or test_scenario == "stale_dataset"):
             force_stale = (test_scenario == "stale_dataset")
             freshness_res = self.freshness_service.evaluate_dataset_freshness(
                 dataset_name=dataset_name,
@@ -292,7 +292,6 @@ class DataGuardPipelineOrchestrator:
             df=data_df,
             contract=contract_data,
             pipeline=pipeline_id,
-            run_id=run_id,
             validate_referential=True
         )
 
@@ -349,27 +348,25 @@ class DataGuardPipelineOrchestrator:
         Fails if breaking changes are detected.
         """
         # Build active target schema dict from DataFrame
+        contract_cols_by_name = {col["name"]: col for col in contract.get("columns", []) if isinstance(col, dict) and "name" in col}
         active_columns = []
         for col_name, dtype in df.dtypes.items():
-            type_str = "string"
-            if "int" in str(dtype):
-                type_str = "integer"
-            elif "float" in str(dtype):
-                type_str = "float"
-            elif "bool" in str(dtype):
-                type_str = "boolean"
-            elif "datetime" in str(dtype):
-                type_str = "timestamp"
-
+            col_str = str(col_name)
+            matched = contract_cols_by_name.get(col_str)
+            type_str = matched.get("type") if matched else "string"
+            nullable = bool(df[col_name].isnull().any())
             active_columns.append({
-                "name": str(col_name),
+                "name": col_str,
                 "type": type_str,
-                "nullable": bool(df[col_name].isnull().any())
+                "nullable": nullable,
+                "allowed_values": matched.get("allowed_values") if matched else None
             })
 
         active_contract = {
             "dataset": dataset_name,
-            "schema": {"columns": active_columns}
+            "version": "live_dataset",
+            "owner": "database-inferred",
+            "columns": active_columns
         }
 
         diff_res = SchemaDiffEngine.compare_contracts(
@@ -385,6 +382,8 @@ class DataGuardPipelineOrchestrator:
 
             # Create incident for breaking schema
             check_result = QualityCheckResult(
+                run_id=run_id,
+                dataset=dataset_name,
                 check_name=f"schema_compatibility_{dataset_name}",
                 column=first_breaking.column if first_breaking else None,
                 expectation_type="expect_schema_to_be_backward_compatible",

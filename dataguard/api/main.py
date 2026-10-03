@@ -568,6 +568,128 @@ def get_incident_lineage_context(incident_id: str):
     }
 
 
+# Pipeline Orchestration Endpoints (Phase G)
+from dataguard.pipelines.repository import PipelineRepository
+from dataguard.pipelines.registry import PipelineRegistryService
+from dataguard.pipelines.models import PipelineConfig, PipelineRun, PipelineSummary, PipelineHealth
+
+pipeline_repo = PipelineRepository()
+pipeline_registry = PipelineRegistryService(repository=pipeline_repo)
+
+# Automatically sync standard pipelines on startup
+try:
+    pipeline_registry.sync_all_pipelines()
+except Exception:
+    pass
+
+
+@app.get("/pipelines", response_model=List[PipelineConfig])
+def list_pipelines(
+    status: Optional[str] = Query(None, description="Filter by status (ACTIVE, PAUSED, DEPRECATED)"),
+    owner: Optional[str] = Query(None, description="Filter by owner team")
+):
+    """
+    Lists all registered data pipelines with optional filtering.
+    """
+    try:
+        return pipeline_repo.list_pipelines(status=status, owner=owner)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
+@app.get("/pipelines/summary", response_model=PipelineSummary)
+def get_pipeline_summary():
+    """
+    Computes dynamic platform summary aggregated from real metadata and run history.
+    """
+    try:
+        return pipeline_repo.get_pipeline_summary()
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
+@app.get("/pipelines/{pipeline_id}", response_model=PipelineConfig)
+def get_pipeline_details(pipeline_id: str):
+    """
+    Retrieves configuration and metadata for a specific pipeline.
+    """
+    try:
+        pipe = pipeline_repo.get_pipeline(pipeline_id)
+        if not pipe:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Pipeline '{pipeline_id}' not found."
+            )
+        return pipe
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
+@app.get("/pipelines/{pipeline_id}/runs", response_model=List[PipelineRun])
+def list_pipeline_runs(pipeline_id: str, limit: int = Query(50, description="Max runs to return")):
+    """
+    Lists execution run history for a given pipeline.
+    """
+    try:
+        pipe = pipeline_repo.get_pipeline(pipeline_id)
+        if not pipe:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Pipeline '{pipeline_id}' not found."
+            )
+        return pipeline_repo.list_runs(pipeline_id=pipeline_id, limit=limit)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
+@app.get("/pipelines/{pipeline_id}/latest", response_model=PipelineRun)
+def get_latest_pipeline_run(pipeline_id: str):
+    """
+    Retrieves the most recent execution run for a pipeline.
+    """
+    try:
+        pipe = pipeline_repo.get_pipeline(pipeline_id)
+        if not pipe:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Pipeline '{pipeline_id}' not found."
+            )
+        latest = pipeline_repo.get_latest_run(pipeline_id)
+        if not latest:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"No execution runs found for pipeline '{pipeline_id}'."
+            )
+        return latest
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
+@app.get("/pipelines/{pipeline_id}/health", response_model=PipelineHealth)
+def get_pipeline_health_status(pipeline_id: str):
+    """
+    Evaluates health score, active incidents, and freshness state of a pipeline.
+    """
+    try:
+        health = pipeline_repo.get_pipeline_health(pipeline_id)
+        if not health:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Pipeline '{pipeline_id}' not found."
+            )
+        return health
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
 @app.get("/metrics")
 def get_metrics():
     return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)

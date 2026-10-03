@@ -149,6 +149,8 @@ class FreshnessMonitorService:
 
             # Create incident for SLA violation
             check_result = QualityCheckResult(
+                run_id=f"freshness_{uuid.uuid4().hex[:8]}",
+                dataset=dataset_name,
                 check_name=f"freshness_sla_{dataset_name}",
                 column=None,
                 expectation_type="expect_dataset_to_be_fresh",
