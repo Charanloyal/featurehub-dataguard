@@ -72,6 +72,13 @@ Production-style internal data platform containing two connected systems:
 - **11-Stage End-to-End Flow**: Connects Data Source $\to$ Feature Computation $\to$ DataGuard Contract Validation $\to$ Schema Diff $\to$ Great Expectations $\to$ OpenLineage $\to$ Airflow $\to$ Offline Parquet Store $\to$ Materialization $\to$ Redis $\to$ FeatureHub API $\to$ ML Prediction.
 - **Fast-Fail Circuit Breaker**: Malformed features, breaking schema drift, or stale feature vectors abort downstream materialization in `< 1.05s`, logging an OpenLineage `FAIL` RunEvent and filing a prioritized incident (`CRITICAL`/`HIGH`/`MEDIUM`) in PostgreSQL routed to the contract owner. (See [`docs/FEATUREHUB_DATAGUARD_INTEGRATION_VALIDATION.md`](docs/FEATUREHUB_DATAGUARD_INTEGRATION_VALIDATION.md) and [`docs/benchmarks/featurehub-dataguard-integration.md`](docs/benchmarks/featurehub-dataguard-integration.md)).
 
+### Unified Data Platform Dashboard (Phase J)
+- **Unified Observability Console**: Polished, recruiter-ready single-pane-of-glass (`apps/unified-dashboard/`) that presents FeatureHub and DataGuard as one coherent data platform.
+- **12 Primary Pages**: Platform Overview, Pipeline Operations & DAG Stage Highlights, FeatureHub Explorer (122 features across 6 groups), Redis Online Store Latency Tester, Point-in-Time Join Leakage Prevention Demo, Real-Time ML Fraud Inference with Feature Attribution, DataGuard Contract Explorer (27 contracts), Interactive Schema Diff with Decision Banners, Great Expectations Quality Trends, OpenLineage & Column-Level Lineage, Operational Incident Center (with live Acknowledge/Resolve actions), CI/CD Pre-Merge Gate, Unified Benchmarks, and Infrastructure Health Monitor.
+- **Zero Mock Data**: 100% of metrics, schema definitions, and run history are sourced directly from PostgreSQL 16, Redis 7.2, FeatureHub/DataGuard APIs, and verified benchmark artifacts.
+- **Recruiter Demo Center**: 6 interactive one-click scenarios demonstrating end-to-end platform workflows in under 60 seconds.
+- **Comprehensive Documentation & Validation**: See [`docs/architecture/unified-dashboard.md`](docs/architecture/unified-dashboard.md), [`docs/demos/unified-dashboard.md`](docs/demos/unified-dashboard.md), and [`docs/UNIFIED_DASHBOARD_VALIDATION.md`](docs/UNIFIED_DASHBOARD_VALIDATION.md).
+
 ---
 
 ## Quick Start
@@ -89,7 +96,10 @@ make seed
 # 4. Train ML model & run benchmarks
 make benchmark
 
-# 5. Run tests
+# 5. Launch Unified Platform Dashboard
+streamlit run apps/unified-dashboard/app.py --server.port 8505
+
+# 6. Run tests
 make test
 ```
 
@@ -99,6 +109,7 @@ make test
 
 | Application / Service | URL | Credentials / Notes |
 | :--- | :--- | :--- |
+| **Unified Platform Dashboard** | `http://localhost:8505` | Recruiter-Ready Single Pane of Glass (FeatureHub + DataGuard) |
 | **FeatureHub Dashboard** | `http://localhost:8501` | Feature Registry, PIT Demo, Online Store Explorer |
 | **DataGuard Dashboard** | `http://localhost:8502` | Contracts, Schema Diff, Quality Incidents, Lineage |
 | **FeatureHub REST API** | `http://localhost:8000/docs` | OpenAPI Docs |
