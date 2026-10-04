@@ -61,10 +61,11 @@ Production-style internal data platform containing two connected systems:
 - **Idempotent Materialization**: Full and incremental backfill pipelines with freshness SLA monitoring.
 
 ### DataGuard
-- **25+ Production Contracts**: Standardized YAML definitions for schemas, constraints, and SLAs.
-- **Schema Diff Engine**: Automated CI check classifying schema edits into `SAFE`, `WARNING`, and `BREAKING`.
+- **25+ Production Contracts**: Standardized YAML definitions for schemas, constraints, and SLAs in PostgreSQL 16.
+- **Schema Diff & Compatibility Engine**: Automated check classifying schema edits into `SAFE`, `WARNING`, and `BREAKING`.
 - **Data Quality & Incident System**: Great Expectations suites with automated incident lifecycle tracking (`OPEN`, `ACKNOWLEDGED`, `RESOLVED`).
 - **OpenLineage Integration**: Column-level lineage graphs across pipelines and data products.
+- **Airflow Data Pipeline Orchestration**: 16 DAGs executing real DataGuard workflows with fast-fail schema checks, automated Great Expectations validation, OpenLineage provenance, SLA audits, and dynamic health tracking. (See [`docs/DATAGUARD_AIRFLOW_VALIDATION.md`](docs/DATAGUARD_AIRFLOW_VALIDATION.md)).
 
 ---
 

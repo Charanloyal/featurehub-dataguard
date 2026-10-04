@@ -35,7 +35,6 @@ class BaseOperatorShim:
         **kwargs
     ):
         self.task_id = task_id
-        self.dag = dag
         self.retries = retries
         self.retry_delay = retry_delay or timedelta(minutes=1)
         self.execution_timeout = execution_timeout
@@ -44,11 +43,13 @@ class BaseOperatorShim:
         self.downstream_list: List['BaseOperatorShim'] = []
         self.kwargs = kwargs
 
-        if dag is not None:
-            dag.add_task(self)
+        active_dag = dag or DAGShim._current_dag
+        self.dag = active_dag
+        if active_dag is not None:
+            active_dag.add_task(self)
 
     def set_downstream(self, other):
-        if isinstance(other, list):
+        if isinstance(other, (list, tuple, set)):
             for o in other:
                 self.set_downstream(o)
             return other
@@ -59,7 +60,7 @@ class BaseOperatorShim:
         return other
 
     def set_upstream(self, other):
-        if isinstance(other, list):
+        if isinstance(other, (list, tuple, set)):
             for o in other:
                 self.set_upstream(o)
             return other
@@ -70,12 +71,28 @@ class BaseOperatorShim:
         return other
 
     def __rshift__(self, other):
-        self.set_downstream(other)
-        return other
+        return self.set_downstream(other)
 
     def __lshift__(self, other):
-        self.set_upstream(other)
-        return other
+        return self.set_upstream(other)
+
+    def __rrshift__(self, other):
+        """Supports [op1, op2] >> op3"""
+        if isinstance(other, (list, tuple, set)):
+            for o in other:
+                if hasattr(o, "set_downstream"):
+                    o.set_downstream(self)
+            return self
+        return self.set_upstream(other)
+
+    def __rlshift__(self, other):
+        """Supports [op1, op2] << op3"""
+        if isinstance(other, (list, tuple, set)):
+            for o in other:
+                if hasattr(o, "set_upstream"):
+                    o.set_upstream(self)
+            return self
+        return self.set_downstream(other)
 
     def execute(self, context: Dict[str, Any]) -> Any:
         return None
@@ -111,6 +128,8 @@ class EmptyOperatorShim(BaseOperatorShim):
 
 
 class DAGShim:
+    _current_dag: Optional['DAGShim'] = None
+
     def __init__(
         self,
         dag_id: str,
@@ -130,24 +149,33 @@ class DAGShim:
         self.default_args = default_args or {}
         self.catchup = catchup
         self.tags = tags or []
-        self.tasks: Dict[str, BaseOperatorShim] = {}
+        self._tasks: Dict[str, BaseOperatorShim] = {}
         self.kwargs = kwargs
 
     def add_task(self, task: BaseOperatorShim):
-        self.tasks[task.task_id] = task
+        self._tasks[task.task_id] = task
 
     def get_task(self, task_id: str) -> BaseOperatorShim:
-        return self.tasks[task_id]
+        return self._tasks[task_id]
+
+    @property
+    def task_dict(self) -> Dict[str, BaseOperatorShim]:
+        return self._tasks
+
+    @property
+    def tasks(self) -> List[BaseOperatorShim]:
+        return list(self._tasks.values())
 
     @property
     def task_ids(self) -> List[str]:
-        return list(self.tasks.keys())
+        return list(self._tasks.keys())
 
     def __enter__(self):
+        DAGShim._current_dag = self
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        pass
+        DAGShim._current_dag = None
 
 
 # Aliases

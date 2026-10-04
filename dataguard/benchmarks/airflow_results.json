@@ -1,0 +1,160 @@
+{
+  "benchmark": "DataGuard Apache Airflow Pipeline Orchestration",
+  "phase": "Phase G",
+  "system": {
+    "os": "Windows 11 (10.0.26200)",
+    "cpu": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel (16 logical cores @ 2300.0MHz)",
+    "ram_total_gb": 15.69,
+    "python_version": "3.13.9",
+    "postgres_version": "PostgreSQL 16.15 on x86_64-pc-linux-musl, compiled by gcc (Alpine 15.2.0) 15.2.0, 64-bit",
+    "timestamp": "2026-10-03T19:35:15.708430+00:00"
+  },
+  "metrics": {
+    "dag_parsing": {
+      "p50_ms": 3.5,
+      "p95_ms": 9.75,
+      "p99_ms": 10.99,
+      "mean_ms": 4.67,
+      "std_ms": 2.57,
+      "min_ms": 3.19,
+      "max_ms": 11.3,
+      "operations_per_second": 213.92
+    },
+    "clean_pipelines": {
+      "customer_quality_pipeline": {
+        "p50_ms": 274.19,
+        "p95_ms": 375.33,
+        "p99_ms": 379.63,
+        "mean_ms": 296.31,
+        "std_ms": 41.41,
+        "min_ms": 264.94,
+        "max_ms": 380.7,
+        "operations_per_second": 3.37
+      },
+      "transaction_quality_pipeline": {
+        "p50_ms": 876.9,
+        "p95_ms": 897.84,
+        "p99_ms": 909.0,
+        "mean_ms": 873.75,
+        "std_ms": 17.48,
+        "min_ms": 851.09,
+        "max_ms": 911.79,
+        "operations_per_second": 1.14
+      },
+      "feature_quality_pipeline": {
+        "p50_ms": 287.22,
+        "p95_ms": 306.3,
+        "p99_ms": 310.56,
+        "mean_ms": 291.07,
+        "std_ms": 8.49,
+        "min_ms": 284.25,
+        "max_ms": 311.62,
+        "operations_per_second": 3.44
+      }
+    },
+    "failure_scenarios": {
+      "breaking_schema": {
+        "p50_ms": 98.24,
+        "p95_ms": 145.44,
+        "p99_ms": 154.06,
+        "mean_ms": 109.85,
+        "std_ms": 23.29,
+        "min_ms": 95.76,
+        "max_ms": 156.21,
+        "operations_per_second": 9.1
+      },
+      "null_violation": {
+        "p50_ms": 250.19,
+        "p95_ms": 256.53,
+        "p99_ms": 256.99,
+        "mean_ms": 251.43,
+        "std_ms": 3.69,
+        "min_ms": 247.33,
+        "max_ms": 257.11,
+        "operations_per_second": 3.98
+      },
+      "duplicate_violation": {
+        "p50_ms": 249.33,
+        "p95_ms": 251.96,
+        "p99_ms": 252.24,
+        "mean_ms": 249.68,
+        "std_ms": 1.68,
+        "min_ms": 247.31,
+        "max_ms": 252.31,
+        "operations_per_second": 4.01
+      },
+      "enum_violation": {
+        "p50_ms": 247.35,
+        "p95_ms": 257.93,
+        "p99_ms": 259.98,
+        "mean_ms": 249.36,
+        "std_ms": 5.64,
+        "min_ms": 245.19,
+        "max_ms": 260.5,
+        "operations_per_second": 4.01
+      },
+      "stale_dataset": {
+        "p50_ms": 98.71,
+        "p95_ms": 99.32,
+        "p99_ms": 99.38,
+        "mean_ms": 98.23,
+        "std_ms": 1.42,
+        "min_ms": 95.46,
+        "max_ms": 99.4,
+        "operations_per_second": 10.18
+      }
+    },
+    "idempotent_rerun": {
+      "p50_ms": 263.52,
+      "p95_ms": 279.75,
+      "p99_ms": 285.34,
+      "mean_ms": 265.6,
+      "std_ms": 7.74,
+      "min_ms": 258.63,
+      "max_ms": 286.73,
+      "operations_per_second": 3.77
+    },
+    "repository_queries": {
+      "get_pipeline_summary": {
+        "p50_ms": 3.87,
+        "p95_ms": 4.6,
+        "p99_ms": 8.48,
+        "mean_ms": 4.11,
+        "std_ms": 1.1,
+        "min_ms": 3.5,
+        "max_ms": 11.47,
+        "operations_per_second": 243.02
+      },
+      "get_pipeline_health": {
+        "p50_ms": 6.45,
+        "p95_ms": 7.19,
+        "p99_ms": 8.55,
+        "mean_ms": 6.52,
+        "std_ms": 0.58,
+        "min_ms": 5.63,
+        "max_ms": 9.47,
+        "operations_per_second": 153.27
+      },
+      "list_runs": {
+        "p50_ms": 2.26,
+        "p95_ms": 2.68,
+        "p99_ms": 3.22,
+        "mean_ms": 2.34,
+        "std_ms": 0.24,
+        "min_ms": 2.04,
+        "max_ms": 3.37,
+        "operations_per_second": 427.76
+      },
+      "list_pipelines": {
+        "p50_ms": 2.25,
+        "p95_ms": 2.67,
+        "p99_ms": 3.0,
+        "mean_ms": 2.31,
+        "std_ms": 0.2,
+        "min_ms": 2.02,
+        "max_ms": 3.12,
+        "operations_per_second": 432.33
+      }
+    }
+  }
+}

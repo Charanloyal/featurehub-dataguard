@@ -145,5 +145,14 @@ DataGuard captures and exposes fine-grained dataset and column-level lineage usi
 - **Performance Benchmarks**: Evaluated on live PostgreSQL 16 with sub-10ms query latencies (`scripts/benchmark_lineage.py`).
 - **Interactive CLI Demo**: `python scripts/lineage_demo.py` demonstrates end-to-end graph traversal and column-level inspection.
 
+## Apache Airflow Data Pipeline Orchestration (Phase G)
 
-
+DataGuard integrates Apache Airflow as the execution backbone orchestrating real data governance workflows:
+- **16 Production & Test DAGs**: Loaded with 0 import errors in Dockerized Airflow (`customer_quality_pipeline`, `transaction_quality_pipeline`, `feature_quality_pipeline`, `schema_validation_pipeline`, `freshness_monitoring_pipeline`, and 7 deterministic test pipelines).
+- **Core Orchestrator Flow**: Every pipeline sequentially executes Contract Loading -> Schema Diff Gate -> Great Expectations Validation -> OpenLineage Emission -> Incident Management -> State Persistence.
+- **Fast-Fail vs Retries**: Deterministic defects (breaking schema drift, null violations, primary key collisions) fail fast without retries; transient infrastructure faults trigger exponential backoff.
+- **Idempotent Reruns**: Repeated runs with identical `run_id` update cleanly in PostgreSQL without duplicate key collisions.
+- **Relational Run History & Catalog**: `pipeline_metadata` tracks 26 production pipeline configurations; `pipeline_runs` logs duration, status, and diagnostic metrics.
+- **FastAPI Pipeline Endpoints**: Production REST endpoints (`/pipelines`, `/pipelines/summary`, `/pipelines/{id}`, `/pipelines/{id}/runs`, `/pipelines/{id}/latest`, `/pipelines/{id}/health`).
+- **Prometheus Telemetry**: Real-time counters (`pipeline_runs_total`, `pipeline_failure_total`, `pipeline_retries_total`, `pipeline_stale_total`) and execution duration histograms (`pipeline_duration_seconds`).
+- **Automated Validation**: 28 automated tests in `dataguard/tests/test_airflow_pipelines.py` with full benchmark report in `dataguard/benchmarks/airflow_results.json` (See [`docs/DATAGUARD_AIRFLOW_VALIDATION.md`](../docs/DATAGUARD_AIRFLOW_VALIDATION.md)).

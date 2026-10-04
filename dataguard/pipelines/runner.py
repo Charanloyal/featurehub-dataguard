@@ -292,7 +292,8 @@ class DataGuardPipelineOrchestrator:
             df=data_df,
             contract=contract_data,
             pipeline=pipeline_id,
-            validate_referential=True
+            validate_referential=True,
+            validate_freshness=False
         )
 
         incident_id = None
@@ -432,24 +433,24 @@ class DataGuardPipelineOrchestrator:
         """
         mod_df = df.copy()
 
-        if scenario == "null_failure":
-            # Inject null into first non-nullable column
-            col = mod_df.columns[0]
+        if scenario in ["null_failure", "null_violation"]:
+            # Inject null into non-nullable column
+            col = "email" if "email" in mod_df.columns else mod_df.columns[0]
             mod_df.loc[0:2, col] = None
-        elif scenario == "duplicate_failure":
+        elif scenario in ["duplicate_failure", "duplicate_violation"]:
             # Duplicate the first row
             mod_df = pd.concat([mod_df, mod_df.iloc[[0]]], ignore_index=True)
-        elif scenario == "invalid_enum":
-            # Find status or currency column and inject bogus enum
-            enum_cols = [c for c in mod_df.columns if c in ["status", "currency", "state", "account_type"]]
+        elif scenario in ["invalid_enum", "enum_violation"]:
+            # Find status, kyc_status, or currency column and inject bogus enum
+            enum_cols = [c for c in mod_df.columns if c in ["kyc_status", "risk_tier", "status", "currency", "state", "account_type"]]
             target_col = enum_cols[0] if enum_cols else mod_df.columns[-1]
             mod_df.loc[0, target_col] = "INVALID_BOGUS_STATUS_XYZ"
-        elif scenario == "referential_failure":
+        elif scenario in ["referential_failure", "referential_violation"]:
             # Find foreign key column and inject non-existent ID
             fk_cols = [c for c in mod_df.columns if "id" in c and c != mod_df.columns[0]]
-            if fk_cols:
-                mod_df.loc[0, fk_cols[0]] = "NON_EXISTENT_FK_999999"
-        elif scenario == "breaking_schema":
+            target_col = fk_cols[0] if fk_cols else "customer_id"
+            mod_df.loc[0, target_col] = "NON_EXISTENT_FK_999999"
+        elif scenario in ["breaking_schema", "breaking_change"]:
             # Drop a critical column
             if len(mod_df.columns) > 1:
                 mod_df = mod_df.drop(columns=[mod_df.columns[1]])
@@ -485,9 +486,11 @@ class DataGuardPipelineOrchestrator:
             pipeline_id, run_id, stage, err_msg
         )
 
-        details = getattr(error, "details", {})
+        details = getattr(error, "details", {}) or {}
         incident_id = details.get("incident_id")
         quality_run_id = details.get("quality_run_id")
+        quality_score = details.get("quality_score")
+        failed_checks = details.get("failed_checks")
 
         # 1. Update pipeline_runs in PostgreSQL
         self.repository.record_run_finish(
@@ -499,7 +502,7 @@ class DataGuardPipelineOrchestrator:
             lineage_run_id=run_id,
             error_message=f"[{stage}] {err_msg}",
             retry_count=retry_count,
-            metrics={"duration_ms": duration_ms, "failed_stage": stage}
+            metrics={"duration_ms": duration_ms, "failed_stage": stage, "quality_score": quality_score, "failed_checks": failed_checks}
         )
 
         # 2. OpenLineage FAIL event
@@ -522,8 +525,11 @@ class DataGuardPipelineOrchestrator:
             "dataset": dataset,
             "stage": stage,
             "error": err_msg,
+            "error_message": err_msg,
             "incident_id": incident_id,
             "quality_run_id": quality_run_id,
+            "quality_score": quality_score,
+            "failed_checks": failed_checks,
             "duration_ms": duration_ms
         }
 

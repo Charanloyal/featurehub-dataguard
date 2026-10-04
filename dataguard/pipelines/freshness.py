@@ -5,6 +5,7 @@ identifies stale data, emits Prometheus alerts, and generates incidents on SLA b
 """
 
 import os
+import uuid
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Dict, Any, List, Optional

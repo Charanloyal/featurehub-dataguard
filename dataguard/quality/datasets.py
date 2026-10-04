@@ -25,6 +25,14 @@ class DatasetCatalog:
     """
 
     @classmethod
+    def get_dataset_path(cls, dataset_name: str) -> Optional[str]:
+        """Returns the file path of a dataset if it exists in raw or offline store."""
+        for p in [RAW_DIR / f"{dataset_name}.parquet", RAW_DIR / f"{dataset_name}.csv", OFFLINE_DIR / f"{dataset_name}.parquet"]:
+            if p.exists():
+                return str(p)
+        return None
+
+    @classmethod
     def load_dataset(cls, dataset_name: str) -> pd.DataFrame:
         """Loads dataset from raw parquet/csv or generates realistic data if not yet materialized."""
         # 1. Check data/raw/*.parquet or *.csv
