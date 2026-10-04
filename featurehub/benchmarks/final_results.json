@@ -1,0 +1,51 @@
+{
+  "benchmark_name": "FeatureHub Phase K Final System Truth Audit",
+  "timestamp": "2026-10-04T19:51:05.680053+00:00",
+  "audit_phase": "STAGE 3 \u2014 PHASE K",
+  "environment": {
+    "os": "Windows 11 (10.0.26200)",
+    "python_version": "3.13.9",
+    "cpu_logical_cores": 16,
+    "cpu_physical_cores": 10,
+    "cpu_frequency_max_mhz": 2300.0,
+    "total_ram_gb": 15.69,
+    "redis_version": "Redis 7.2.16",
+    "redis_connected": true
+  },
+  "parameters": {
+    "num_requests": 1000,
+    "warmup_requests": 100,
+    "concurrency": 1,
+    "timer": "time.perf_counter() (High Resolution Monotonic)",
+    "api_endpoint": "http://127.0.0.1:8010/predict"
+  },
+  "feature_metrics": {
+    "total_registered_features": 122,
+    "feature_groups_count": 6,
+    "feature_freshness_sla_minutes": 60,
+    "point_in_time_leakage_prevented": true,
+    "materialization_success": true,
+    "materialization_duration_ms": 5750.03
+  },
+  "redis_lookup_latency": {
+    "storage_layer": "Redis Container Socket (TCP)",
+    "cache_hit_rate": 0.65,
+    "p50_ms": 0.772,
+    "p95_ms": 1.2537,
+    "p99_ms": 1.6191,
+    "mean_ms": 0.8355,
+    "min_ms": 0.4451,
+    "max_ms": 2.7187
+  },
+  "http_prediction_api_latency": {
+    "endpoint": "http://127.0.0.1:8010/predict",
+    "success_rate": 1.0,
+    "requests_per_second": 228.52,
+    "p50_ms": 4.1994,
+    "p95_ms": 5.578,
+    "p99_ms": 6.6204,
+    "mean_ms": 4.3561,
+    "min_ms": 3.117,
+    "max_ms": 7.938
+  }
+}
