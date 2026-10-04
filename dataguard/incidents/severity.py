@@ -49,8 +49,8 @@ class IncidentSeverityPolicy:
         if expectation_type == "expect_column_values_to_match_foreign_key":
             return IncidentSeverity.CRITICAL
 
-        # B. Critical schema violation (missing column)
-        if expectation_type == "expect_column_to_exist":
+        # B. Critical schema violation (missing column / breaking schema drift)
+        if expectation_type in ["expect_column_to_exist", "expect_schema_to_be_backward_compatible"]:
             return IncidentSeverity.CRITICAL
 
         # C. Primary key corruption (uniqueness failure on PK)

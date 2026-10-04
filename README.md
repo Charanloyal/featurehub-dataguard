@@ -68,6 +68,10 @@ Production-style internal data platform containing two connected systems:
 - **Airflow Data Pipeline Orchestration**: 16 DAGs executing real DataGuard workflows with fast-fail schema checks, automated Great Expectations validation, OpenLineage provenance, SLA audits, and dynamic health tracking. (See [`docs/DATAGUARD_AIRFLOW_VALIDATION.md`](docs/DATAGUARD_AIRFLOW_VALIDATION.md)).
 - **GitHub CI/CD Gating**: Deterministic PR pre-merge gate evaluating Contract Validation -> Schema Diff -> Data Quality Regression -> `SAFE` / `WARNING` / `BREAKING` -> Merge or Block Merge (exit code 1). (See [`docs/DATAGUARD_CI_GATING_VALIDATION.md`](docs/DATAGUARD_CI_GATING_VALIDATION.md)).
 
+### Integrated Platform (Phase I)
+- **11-Stage End-to-End Flow**: Connects Data Source $\to$ Feature Computation $\to$ DataGuard Contract Validation $\to$ Schema Diff $\to$ Great Expectations $\to$ OpenLineage $\to$ Airflow $\to$ Offline Parquet Store $\to$ Materialization $\to$ Redis $\to$ FeatureHub API $\to$ ML Prediction.
+- **Fast-Fail Circuit Breaker**: Malformed features, breaking schema drift, or stale feature vectors abort downstream materialization in `< 1.05s`, logging an OpenLineage `FAIL` RunEvent and filing a prioritized incident (`CRITICAL`/`HIGH`/`MEDIUM`) in PostgreSQL routed to the contract owner. (See [`docs/FEATUREHUB_DATAGUARD_INTEGRATION_VALIDATION.md`](docs/FEATUREHUB_DATAGUARD_INTEGRATION_VALIDATION.md) and [`docs/benchmarks/featurehub-dataguard-integration.md`](docs/benchmarks/featurehub-dataguard-integration.md)).
+
 ---
 
 ## Quick Start

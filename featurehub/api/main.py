@@ -15,6 +15,8 @@ from featurehub.online_store.redis_store import RedisOnlineStore
 from featurehub.computation.engine import compute_offline_features
 from featurehub.inference.predictor import RealTimePredictor
 from featurehub.feature_definitions.definitions import FeatureDefinition
+from featurehub.integration.service import FeatureHubDataGuardIntegrator
+from featurehub.integration.models import IntegratedPipelineResult
 
 app = FastAPI(
     title="FeatureHub API",
@@ -25,6 +27,8 @@ app = FastAPI(
 registry_service = FeatureRegistryService()
 online_store = RedisOnlineStore()
 predictor = RealTimePredictor(online_store=online_store)
+integrator = FeatureHubDataGuardIntegrator()
+_latest_integrated_result = None
 
 # Prometheus Metrics Definition
 REQUEST_COUNT = Counter("featurehub_http_requests_total", "Total HTTP Requests", ["method", "endpoint", "status"])
@@ -117,6 +121,42 @@ def predict_fraud_risk(req: PredictionRequest):
     )
     return result
 
+
+class IntegratedRunRequest(BaseModel):
+    dataset_name: str = "customer_features"
+    target_customer_id: str = "cust_0001"
+    as_of_timestamp: Optional[str] = None
+    inject_anomaly: Optional[str] = None
+    allow_breaking: bool = False
+
+
+@app.post("/pipeline/integrated-run", response_model=IntegratedPipelineResult)
+def trigger_integrated_platform_run(req: IntegratedRunRequest):
+    """
+    Triggers end-to-end FeatureHub + DataGuard integration flow:
+    Ingestion -> Computation -> Contracts -> Diff -> Quality -> Lineage -> Offline -> Redis -> ML Inference.
+    """
+    global _latest_integrated_result
+    result = integrator.run_e2e_pipeline(
+        dataset_name=req.dataset_name,
+        target_customer_id=req.target_customer_id,
+        as_of_timestamp=req.as_of_timestamp,
+        inject_anomaly=req.inject_anomaly,
+        allow_breaking=req.allow_breaking
+    )
+    _latest_integrated_result = result
+    return result
+
+
+@app.get("/pipeline/integrated-run/latest", response_model=Optional[IntegratedPipelineResult])
+def get_latest_integrated_run():
+    """Retrieves the most recent integrated platform run."""
+    if not _latest_integrated_result:
+        raise HTTPException(status_code=404, detail="No integrated platform runs recorded yet.")
+    return _latest_integrated_result
+
+
 @app.get("/metrics")
 def get_metrics():
     return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
+

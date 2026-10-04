@@ -1,0 +1,100 @@
+{
+  "timestamp": "2026-10-04T05:01:19.269241+00:00",
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.13.9",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "machine": "AMD64",
+    "system": "Windows"
+  },
+  "success_path": {
+    "iterations": 5,
+    "total_mean_ms": 5343.79,
+    "total_p50_ms": 5353.0,
+    "total_p95_ms": 5505.83,
+    "records_computed": 3672,
+    "records_materialized": 3672,
+    "quality_score": 100.0,
+    "ml_prediction_risk_score": 0.0375,
+    "stages_breakdown": {
+      "DATA_SOURCE": {
+        "mean_ms": 0.54,
+        "percentage_of_total": 0.0
+      },
+      "FEATURE_COMPUTATION": {
+        "mean_ms": 557.35,
+        "percentage_of_total": 10.4
+      },
+      "CONTRACT_VALIDATION": {
+        "mean_ms": 9.23,
+        "percentage_of_total": 0.2
+      },
+      "SCHEMA_VALIDATION": {
+        "mean_ms": 6.76,
+        "percentage_of_total": 0.1
+      },
+      "DATA_QUALITY": {
+        "mean_ms": 271.25,
+        "percentage_of_total": 5.1
+      },
+      "OPENLINEAGE": {
+        "mean_ms": 125.78,
+        "percentage_of_total": 2.4
+      },
+      "AIRFLOW_ORCHESTRATION": {
+        "mean_ms": 6.84,
+        "percentage_of_total": 0.1
+      },
+      "OFFLINE_STORE": {
+        "mean_ms": 22.98,
+        "percentage_of_total": 0.4
+      },
+      "MATERIALIZATION": {
+        "mean_ms": 4225.74,
+        "percentage_of_total": 79.1
+      },
+      "REDIS_ONLINE_STORE": {
+        "mean_ms": 0.98,
+        "percentage_of_total": 0.0
+      },
+      "ML_PREDICTION": {
+        "mean_ms": 0.89,
+        "percentage_of_total": 0.0
+      }
+    }
+  },
+  "failure_paths": {
+    "BREAKING_SCHEMA": {
+      "status": "FAILED",
+      "duration_ms": 911.86,
+      "incident_id": "inc_b02f52f03afe",
+      "incident_severity": "CRITICAL",
+      "incident_owner": "featurestore-team",
+      "failing_reason": "Breaking schema drift detected in computed features 'customer_features'."
+    },
+    "NULL_VIOLATION": {
+      "status": "FAILED",
+      "duration_ms": 1014.93,
+      "incident_id": "inc_9e27664e8c79",
+      "incident_severity": "HIGH",
+      "incident_owner": "featurestore-team",
+      "failing_reason": "Quality validation failed with 1 failures. Score: 93.8% (Required: 100.0%)"
+    },
+    "RANGE_VIOLATION": {
+      "status": "FAILED",
+      "duration_ms": 1026.86,
+      "incident_id": "inc_4104de116422",
+      "incident_severity": "MEDIUM",
+      "incident_owner": "featurestore-team",
+      "failing_reason": "Quality validation failed with 1 failures. Score: 93.8% (Required: 100.0%)"
+    },
+    "STALE_FEATURES": {
+      "status": "FAILED",
+      "duration_ms": 973.77,
+      "incident_id": "inc_22bfe9ccd201",
+      "incident_severity": "CRITICAL",
+      "incident_owner": "featurestore-team",
+      "failing_reason": "Quality validation failed with 1 failures. Score: 93.8% (Required: 100.0%)"
+    }
+  }
+}
