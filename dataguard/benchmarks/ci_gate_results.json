@@ -1,0 +1,86 @@
+{
+  "timestamp": "2026-10-04T04:18:35.109956+00:00",
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.13.9",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "machine": "AMD64",
+    "system": "Windows"
+  },
+  "benchmark_parameters": {
+    "iterations_per_scale": 100,
+    "warmup_runs": 10,
+    "scales_tested": [
+      10,
+      50,
+      100,
+      250
+    ]
+  },
+  "measurements": {
+    "10_columns": {
+      "columns": 10,
+      "p50_ms": 0.1264,
+      "p95_ms": 0.2834,
+      "p99_ms": 0.8064,
+      "mean_ms": 0.1527,
+      "min_ms": 0.1162,
+      "max_ms": 0.8064,
+      "throughput_evals_per_sec": 6548.4,
+      "verdict": "BREAKING",
+      "breaking_count": 2,
+      "warning_count": 1,
+      "safe_count": 1
+    },
+    "50_columns": {
+      "columns": 50,
+      "p50_ms": 0.2857,
+      "p95_ms": 0.5426,
+      "p99_ms": 0.6479,
+      "mean_ms": 0.3043,
+      "min_ms": 0.2735,
+      "max_ms": 0.6479,
+      "throughput_evals_per_sec": 3285.9,
+      "verdict": "BREAKING",
+      "breaking_count": 2,
+      "warning_count": 1,
+      "safe_count": 1
+    },
+    "100_columns": {
+      "columns": 100,
+      "p50_ms": 0.4974,
+      "p95_ms": 0.8677,
+      "p99_ms": 1.4102,
+      "mean_ms": 0.5655,
+      "min_ms": 0.479,
+      "max_ms": 1.4102,
+      "throughput_evals_per_sec": 1768.4,
+      "verdict": "BREAKING",
+      "breaking_count": 2,
+      "warning_count": 1,
+      "safe_count": 1
+    },
+    "250_columns": {
+      "columns": 250,
+      "p50_ms": 1.1343,
+      "p95_ms": 1.5242,
+      "p99_ms": 1.8492,
+      "mean_ms": 1.1895,
+      "min_ms": 1.0699,
+      "max_ms": 1.8492,
+      "throughput_evals_per_sec": 840.7,
+      "verdict": "BREAKING",
+      "breaking_count": 2,
+      "warning_count": 1,
+      "safe_count": 1
+    },
+    "batch_pr_25_contracts": {
+      "contracts_evaluated": 25,
+      "mean_ms": 1.8308,
+      "p50_ms": 1.769,
+      "p95_ms": 2.6856,
+      "verdict": "SAFE",
+      "throughput_prs_per_sec": 546.2
+    }
+  }
+}

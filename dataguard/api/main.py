@@ -44,6 +44,30 @@ from dataguard.incidents.models import (
     InvalidStateTransitionError
 )
 from dataguard.lineage.service import LineageService
+from dataguard.ci.models import (
+    GatingVerdict,
+    GatingChange,
+    ContractGatingResult,
+    PRGatingSummary
+)
+from dataguard.ci.gate import CICDContractGatingEngine
+
+class CIGatingRequest(BaseModel):
+    baseline_contract: Optional[Dict[str, Any]] = None
+    target_contract: Dict[str, Any]
+    dataset_name: Optional[str] = None
+    file_path: Optional[str] = None
+    validate_quality: bool = True
+
+class PRGatingItem(BaseModel):
+    baseline_contract: Optional[Dict[str, Any]] = None
+    target_contract: Dict[str, Any]
+    file_path: Optional[str] = None
+
+class BatchPRGatingRequest(BaseModel):
+    contracts: List[PRGatingItem]
+    allow_breaking: bool = False
+    validate_quality: bool = True
 
 app = FastAPI(
     title="DataGuard API",
@@ -693,5 +717,46 @@ def get_pipeline_health_status(pipeline_id: str):
 @app.get("/metrics")
 def get_metrics():
     return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
+
+
+# --------------------------------------------------------------------------
+# Phase H: CI/CD Pull Request Contract Compatibility & Quality Gating
+# --------------------------------------------------------------------------
+
+@app.post("/ci/gate", response_model=ContractGatingResult)
+def evaluate_ci_contract_gate(payload: CIGatingRequest):
+    """
+    Evaluates a single contract modification for CI/CD Pull Request gating:
+    Contract Validation -> Schema Diff -> Quality Regression -> Merge Verdict (SAFE/WARNING/BREAKING).
+    """
+    try:
+        return CICDContractGatingEngine.evaluate_contract_change(
+            baseline_contract=payload.baseline_contract,
+            target_contract=payload.target_contract,
+            dataset_name=payload.dataset_name,
+            file_path=payload.file_path,
+            validate_quality=payload.validate_quality
+        )
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
+@app.post("/ci/gate/pr", response_model=PRGatingSummary)
+def evaluate_ci_batch_pr(payload: BatchPRGatingRequest):
+    """
+    Evaluates multiple contracts in a PR batch, generating a GitHub-ready markdown summary and exit code.
+    """
+    try:
+        items = [
+            (c.baseline_contract, c.target_contract, c.file_path or "inline.yaml")
+            for c in payload.contracts
+        ]
+        return CICDContractGatingEngine.evaluate_pr(
+            contracts_to_evaluate=items,
+            allow_breaking=payload.allow_breaking,
+            validate_quality=payload.validate_quality
+        )
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 

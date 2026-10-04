@@ -156,3 +156,31 @@ DataGuard integrates Apache Airflow as the execution backbone orchestrating real
 - **FastAPI Pipeline Endpoints**: Production REST endpoints (`/pipelines`, `/pipelines/summary`, `/pipelines/{id}`, `/pipelines/{id}/runs`, `/pipelines/{id}/latest`, `/pipelines/{id}/health`).
 - **Prometheus Telemetry**: Real-time counters (`pipeline_runs_total`, `pipeline_failure_total`, `pipeline_retries_total`, `pipeline_stale_total`) and execution duration histograms (`pipeline_duration_seconds`).
 - **Automated Validation**: 28 automated tests in `dataguard/tests/test_airflow_pipelines.py` with full benchmark report in `dataguard/benchmarks/airflow_results.json` (See [`docs/DATAGUARD_AIRFLOW_VALIDATION.md`](../docs/DATAGUARD_AIRFLOW_VALIDATION.md)).
+
+## GitHub CI/CD Contract Gating (Phase H)
+
+DataGuard enforces automated pre-merge gating for Pull Requests modifying data contracts:
+```
+Developer opens PR
+        ↓
+GitHub Actions
+        ↓
+Contract Validation
+        ↓
+Schema Diff
+        ↓
+Data Quality Regression
+        ↓
+SAFE / WARNING / BREAKING
+        ↓
+✅ Merge (Exit 0) or ❌ Block Merge (Exit 1)
+```
+- **3-Stage Gate**: Contract Structural Validation -> Schema Diff Engine -> Data Quality Regression.
+- **Merge Policies**:
+  - `BREAKING`: Exit code `1`, PR merge blocked. (Triggered by dropped columns, incompatible type changes, tightened nullability, removed enum values, invalid YAML syntax, or quality regression < 70%).
+  - `WARNING`: Exit code `0`, PR merge allowed with review warnings. (Triggered by non-nullable column additions, SLA tightening, or narrowed ranges).
+  - `SAFE`: Exit code `0`, PR merge approved. (Triggered by nullable column additions, type widening, or new contracts).
+- **CLI Runner**: `python scripts/ci_contract_gate.py --base origin/main --output-summary $GITHUB_STEP_SUMMARY`.
+- **FastAPI Gating Endpoints**: `POST /ci/gate` and `POST /ci/gate/pr`.
+- **Sub-Millisecond Benchmarks**: 0.153 ms (10 cols), 0.565 ms (100 cols), 1.831 ms full PR batch across all 25 contracts.
+- **Automated Verification**: 28 automated tests in `dataguard/tests/test_ci_gating.py` (See [`docs/DATAGUARD_CI_GATING_VALIDATION.md`](../docs/DATAGUARD_CI_GATING_VALIDATION.md)).

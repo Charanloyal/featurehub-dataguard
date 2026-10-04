@@ -66,6 +66,7 @@ Production-style internal data platform containing two connected systems:
 - **Data Quality & Incident System**: Great Expectations suites with automated incident lifecycle tracking (`OPEN`, `ACKNOWLEDGED`, `RESOLVED`).
 - **OpenLineage Integration**: Column-level lineage graphs across pipelines and data products.
 - **Airflow Data Pipeline Orchestration**: 16 DAGs executing real DataGuard workflows with fast-fail schema checks, automated Great Expectations validation, OpenLineage provenance, SLA audits, and dynamic health tracking. (See [`docs/DATAGUARD_AIRFLOW_VALIDATION.md`](docs/DATAGUARD_AIRFLOW_VALIDATION.md)).
+- **GitHub CI/CD Gating**: Deterministic PR pre-merge gate evaluating Contract Validation -> Schema Diff -> Data Quality Regression -> `SAFE` / `WARNING` / `BREAKING` -> Merge or Block Merge (exit code 1). (See [`docs/DATAGUARD_CI_GATING_VALIDATION.md`](docs/DATAGUARD_CI_GATING_VALIDATION.md)).
 
 ---
 
