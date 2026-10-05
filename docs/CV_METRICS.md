@@ -16,7 +16,7 @@ Every metric listed below is derived from reproducible benchmarks executed on li
 | **Prediction API p99** | Sub-12ms p99 | **6.62 ms** | **VERIFIED** | `featurehub/benchmarks/final_results.json` | `python featurehub/benchmarks/run_final_benchmarks.py` |
 | **Point-in-Time (PIT) Leakage** | Zero train/serve leakage | **0.0% (Zero Leakage)** | **VERIFIED** | `featurehub/tests/test_pit.py` | `pytest featurehub/tests/test_pit.py -v` |
 | **Data Platform Pipelines** | 25+ pipelines | **26 production pipelines** | **VERIFIED** | `docs/PIPELINE_INVENTORY.md` | `python -c "from dataguard.pipelines.registry import STANDARD_PIPELINES; print(len(STANDARD_PIPELINES))"` |
-| **Schema Breaking Changes Blocked** | 95% blocked in CI | **100.0% blocked** | **VERIFIED** | `scripts/schema_breaking_experiment.py` | `python scripts/schema_breaking_experiment.py` |
+| **Schema Breaking Changes Blocked** | 95% blocked in CI | **100.0% of tested scenarios in the reproducible validation benchmark** | **VERIFIED** | `scripts/schema_breaking_experiment.py` | `python scripts/schema_breaking_experiment.py` |
 | **Data Quality Throughput** | High-throughput Great Expectations | **344,340 rows/sec** (290ms / 100k) | **VERIFIED** | `dataguard/benchmarks/final_quality_results.json` | `python scripts/benchmark_quality.py` |
 | **Column Lineage Query Latency** | Sub-10ms graph traversal | **6.29 ms** (Mean) | **VERIFIED** | `dataguard/benchmarks/final_lineage_results.json` | `python scripts/benchmark_lineage.py` |
 | **Incident Deduplication & Indexing** | Sub-25ms incident dispatch | **22.09 ms** (P50 creation) | **VERIFIED** | `dataguard/benchmarks/final_incident_results.json` | `python scripts/benchmark_incidents.py` |
@@ -78,7 +78,7 @@ Every metric listed below is derived from reproducible benchmarks executed on li
 
 ### 6. Schema-Breaking Changes Blocked in CI
 - **Metric**: Percentage of Breaking Schema Evolutions Blocked Pre-Merge
-- **Value**: **100.0% blocked** (5/5 breaking scenarios blocked with Exit Code 1; 3/3 safe scenarios allowed)
+- **Value**: **100.0% of tested scenarios in the reproducible validation benchmark** (5/5 breaking scenarios blocked with Exit Code 1; 3/3 safe scenarios allowed)
 - **Status**: **VERIFIED**
 - **Command**: `python scripts/schema_breaking_experiment.py`
 - **Source File**: [`scripts/schema_breaking_experiment.py`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/scripts/schema_breaking_experiment.py)
