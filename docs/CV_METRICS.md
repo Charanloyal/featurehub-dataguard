@@ -31,7 +31,7 @@ Every metric listed below is derived from reproducible benchmarks executed on li
 - **Value**: **122 features across 6 entity groups** (`customer_features`, `merchant_features`, `account_features`, `transaction_window_features`, `velocity_risk_features`, `temporal_behavioral_features`)
 - **Status**: **VERIFIED**
 - **Command**: `python -c "from featurehub.registry.service import FeatureRegistryService; print(len(FeatureRegistryService().list_features()))"`
-- **Source File**: [`featurehub/feature_definitions/definitions.py`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/featurehub/feature_definitions/definitions.py)
+- **Source File**: [`featurehub/feature_definitions/definitions.py`](../featurehub/feature_definitions/definitions.py)
 - **Environment**: Python 3.13.9, SQLite/PostgreSQL
 - **Dataset Size**: 122 feature specifications with data types, SLAs, and SQL derivations
 - **Date**: 2026-10-04
@@ -41,7 +41,7 @@ Every metric listed below is derived from reproducible benchmarks executed on li
 - **Value**: **1.62 ms** (p50: **0.77 ms**, p95: **1.25 ms**, Mean: **0.84 ms**)
 - **Status**: **VERIFIED**
 - **Command**: `python featurehub/benchmarks/run_final_benchmarks.py`
-- **Source File**: [`featurehub/benchmarks/final_results.json`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/featurehub/benchmarks/final_results.json)
+- **Source File**: [`featurehub/benchmarks/final_results.json`](../featurehub/benchmarks/final_results.json)
 - **Environment**: Windows 11, Redis 7.2.16 (Docker TCP Socket port 6379), Python 3.13.9
 - **Dataset Size**: 1,000 live requests (100 warmup), 4,672 materialized entities
 - **Date**: 2026-10-04
@@ -51,7 +51,7 @@ Every metric listed below is derived from reproducible benchmarks executed on li
 - **Value**: **6.62 ms** p99 (p50: **4.20 ms**, p95: **5.58 ms**, Mean: **4.36 ms**) | Throughput: **228.5 req/s**
 - **Status**: **VERIFIED**
 - **Command**: `python featurehub/benchmarks/run_final_benchmarks.py`
-- **Source File**: [`featurehub/benchmarks/final_results.json`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/featurehub/benchmarks/final_results.json)
+- **Source File**: [`featurehub/benchmarks/final_results.json`](../featurehub/benchmarks/final_results.json)
 - **Environment**: FastAPI on port 8010, Redis 7.2.16, Intel64 16 logical cores, Python 3.13.9
 - **Dataset Size**: 1,000 HTTP POST inference requests
 - **Date**: 2026-10-04
@@ -61,7 +61,7 @@ Every metric listed below is derived from reproducible benchmarks executed on li
 - **Value**: **0.0% (Zero Future Leakage)** — Event observation timestamp constraint ($t_{feature} \le t_{event}$) strictly enforced; future feature vectors rejected
 - **Status**: **VERIFIED**
 - **Command**: `pytest featurehub/tests/test_pit.py -v`
-- **Source File**: [`featurehub/point_in_time/pit_engine.py`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/featurehub/point_in_time/pit_engine.py)
+- **Source File**: [`featurehub/point_in_time/pit_engine.py`](../featurehub/point_in_time/pit_engine.py)
 - **Environment**: Python 3.13.9, Pandas 2.2
 - **Dataset Size**: 7 unit test assertions with edge-case temporal boundary timestamps
 - **Date**: 2026-10-04
@@ -71,7 +71,7 @@ Every metric listed below is derived from reproducible benchmarks executed on li
 - **Value**: **26 production pipelines** backed by 26 contracts and PostgreSQL metadata
 - **Status**: **VERIFIED**
 - **Command**: `python -c "from dataguard.pipelines.registry import STANDARD_PIPELINES; print(len(STANDARD_PIPELINES))"`
-- **Source File**: [`docs/PIPELINE_INVENTORY.md`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/docs/PIPELINE_INVENTORY.md)
+- **Source File**: [`docs/PIPELINE_INVENTORY.md`](../docs/PIPELINE_INVENTORY.md)
 - **Environment**: PostgreSQL 16 (Port 5432), Airflow 2.9 (Port 8080)
 - **Dataset Size**: 26 distinct pipelines across 26 datasets (10 direct DAGs + 16 dynamic orchestrations)
 - **Date**: 2026-10-04
@@ -81,7 +81,7 @@ Every metric listed below is derived from reproducible benchmarks executed on li
 - **Value**: **100.0% of tested scenarios in the reproducible validation benchmark** (5/5 breaking scenarios blocked with Exit Code 1; 3/3 safe scenarios allowed)
 - **Status**: **VERIFIED**
 - **Command**: `python scripts/schema_breaking_experiment.py`
-- **Source File**: [`scripts/schema_breaking_experiment.py`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/scripts/schema_breaking_experiment.py)
+- **Source File**: [`scripts/schema_breaking_experiment.py`](../scripts/schema_breaking_experiment.py)
 - **Environment**: Python 3.13.9, SchemaDiffEngine
 - **Dataset Size**: 8 evolution scenarios (column drops, narrowing types, enum removals, nullability shifts)
 - **Date**: 2026-10-04
@@ -91,7 +91,7 @@ Every metric listed below is derived from reproducible benchmarks executed on li
 - **Value**: **344,340 rows/sec** (100,000 rows evaluated in **290.41 ms**)
 - **Status**: **VERIFIED**
 - **Command**: `python scripts/benchmark_quality.py`
-- **Source File**: [`dataguard/benchmarks/final_quality_results.json`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/dataguard/benchmarks/final_quality_results.json)
+- **Source File**: [`dataguard/benchmarks/final_quality_results.json`](../dataguard/benchmarks/final_quality_results.json)
 - **Environment**: Great Expectations 1.x, Pandas, Python 3.13.9
 - **Dataset Size**: 100,000 rows (17.8 MB in-memory table), 43 validation checks executed
 - **Date**: 2026-10-04
@@ -101,7 +101,7 @@ Every metric listed below is derived from reproducible benchmarks executed on li
 - **Value**: **6.29 ms** Mean (158.9 operations/sec)
 - **Status**: **VERIFIED**
 - **Command**: `python scripts/benchmark_lineage.py`
-- **Source File**: [`dataguard/benchmarks/final_lineage_results.json`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/dataguard/benchmarks/final_lineage_results.json)
+- **Source File**: [`dataguard/benchmarks/final_lineage_results.json`](../dataguard/benchmarks/final_lineage_results.json)
 - **Environment**: PostgreSQL 16 (Port 5432)
 - **Dataset Size**: 25 iterations on live relational graph
 - **Date**: 2026-10-04

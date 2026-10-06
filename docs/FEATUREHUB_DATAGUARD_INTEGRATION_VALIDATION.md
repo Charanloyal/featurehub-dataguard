@@ -108,7 +108,7 @@ The primary objective of Phase I was to connect **FeatureHub** (enterprise featu
 
 ## 2. Test Execution & Verification Matrix
 
-All **22 integration tests** in [`tests/test_featurehub_dataguard_integration.py`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/tests/test_featurehub_dataguard_integration.py) passed without failure.
+All **22 integration tests** in [`tests/test_featurehub_dataguard_integration.py`](../tests/test_featurehub_dataguard_integration.py) passed without failure.
 
 ### Test Execution Summary
 
@@ -162,18 +162,18 @@ When DataGuard halts a compromised pipeline run, it creates an incident in Postg
 ## 4. Verification Evidence & Artifacts
 
 1. **Architecture Documentation**:
-   - [`docs/architecture/featurehub-dataguard-integration.md`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/docs/architecture/featurehub-dataguard-integration.md)
+   - [`docs/architecture/featurehub-dataguard-integration.md`](../docs/architecture/featurehub-dataguard-integration.md)
 2. **Interactive Demo Guide**:
-   - [`docs/demos/featurehub-dataguard-integration.md`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/docs/demos/featurehub-dataguard-integration.md)
+   - [`docs/demos/featurehub-dataguard-integration.md`](../docs/demos/featurehub-dataguard-integration.md)
 3. **Benchmark Results**:
-   - [`docs/benchmarks/featurehub-dataguard-integration.md`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/docs/benchmarks/featurehub-dataguard-integration.md)
-   - [`featurehub/benchmarks/integration_results.json`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/featurehub/benchmarks/integration_results.json)
+   - [`docs/benchmarks/featurehub-dataguard-integration.md`](../docs/benchmarks/featurehub-dataguard-integration.md)
+   - [`featurehub/benchmarks/integration_results.json`](../featurehub/benchmarks/integration_results.json)
 4. **Airflow Orchestration DAG**:
-   - [`pipelines/airflow/dags/integrated_feature_pipeline.py`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/pipelines/airflow/dags/integrated_feature_pipeline.py)
+   - [`pipelines/airflow/dags/integrated_feature_pipeline.py`](../pipelines/airflow/dags/integrated_feature_pipeline.py)
 5. **FastAPI Serving Router**:
-   - [`featurehub/api/main.py`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/featurehub/api/main.py) (`POST /pipeline/integrated-run`, `GET /pipeline/integrated-run/latest`)
+   - [`featurehub/api/main.py`](../featurehub/api/main.py) (`POST /pipeline/integrated-run`, `GET /pipeline/integrated-run/latest`)
 6. **CLI Runner**:
-   - [`scripts/run_integrated_pipeline.py`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/scripts/run_integrated_pipeline.py)
+   - [`scripts/run_integrated_pipeline.py`](../scripts/run_integrated_pipeline.py)
 
 ---
 

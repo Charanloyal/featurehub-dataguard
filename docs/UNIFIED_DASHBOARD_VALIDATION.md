@@ -89,7 +89,7 @@ pytest apps/unified-dashboard/tests/ -v --ignore=apps/unified_dashboard
 ## 6. Screenshots & Media Artifacts
 
 The browser subagent toured and verified all 12 pages, capturing visual state:
-- **Platform Overview**: [`docs/screenshots/overview.png`](file:///C:/Users/Windows-E/.gemini/antigravity-ide/scratch/featurehub-dataguard/docs/screenshots/overview.png)
+- **Platform Overview**: [`docs/screenshots/overview.png`](../docs/screenshots/overview.png)
 - **Interactive Tour Recording**: Recorded in browser subagent session artifacts.
 
 ---
