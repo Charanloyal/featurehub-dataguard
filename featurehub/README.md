@@ -2,7 +2,9 @@
 
 **Primary Repository:** [Charanloyal/featurehub-dataguard](https://github.com/Charanloyal/featurehub-dataguard)
 
-FeatureHub is an enterprise-grade real-time feature store that unifies offline historical training data with low-latency online serving, eliminating training-serving skew and preventing temporal target leakage.
+FeatureHub is a real-time feature store (portfolio project) that unifies offline historical training data with low-latency online serving, aiming to reduce training-serving skew and prevent temporal target leakage via point-in-time joins.
+
+> All data is synthetic (`scripts/seed_data.py`). Benchmarks below were measured on a single Windows laptop with Redis over loopback at concurrency 1. See the [root README](../README.md).
 
 ---
 
@@ -56,7 +58,7 @@ FeatureHub solves this by providing a single declarative feature catalog, idempo
   - `velocity_risk_features` (rapid-fire attempts, failed-transaction bursts)
   - `temporal_behavioral_features` (weekend ratios, night-owl flags)
 - **Point-in-Time Correctness:** Exact ASOF timestamp joining ($t_{feature} \le t_{obs}$) preventing any forward-looking leakage.
-- **Low-Latency Online Serving:** Sub-2ms key retrieval from Redis 7.2.
+- **Low-Latency Online Serving:** Redis 7.2 key retrieval (1.62 ms p99 in the local loopback benchmark).
 - **Idempotent Materialization:** Scheduled batch and incremental sync from offline Parquet partitions into Redis.
 
 ---
