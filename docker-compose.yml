@@ -41,7 +41,7 @@ services:
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
       - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://${POSTGRES_USER:-platform_admin}:${POSTGRES_PASSWORD:-platform_secure_pass}@postgres:5432/${POSTGRES_DB:-featurehub_dataguard}
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
-      - AIRFLOW__CORE__FERNET_KEY=46ExTH2ZsRkgYixWvc34wGEeeCzFB8qzgFIq2yEeCSQ=
+      - AIRFLOW__CORE__FERNET_KEY=${AIRFLOW__CORE__FERNET_KEY:-}
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
       - POSTGRES_USER=${POSTGRES_USER:-platform_admin}

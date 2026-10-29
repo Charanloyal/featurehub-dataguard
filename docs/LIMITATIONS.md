@@ -17,7 +17,7 @@ To uphold rigorous engineering integrity, this document explicitly details the b
 ---
 
 ## 3. Public Demo Architecture vs. Local Full Platform
-- **Disclosed Boundary:** The public live demo (`https://sympathy-mesh-microphone-oakland.trycloudflare.com`) runs on a lightweight Public Gateway architecture exposing deterministic demo entities.
+- **Disclosed Boundary:** The public demo (previously exposed through a temporary Cloudflare quick tunnel, now offline) runs on a lightweight Public Gateway architecture exposing deterministic demo entities from a static snapshot (`apps/public-api/demo_data.py`).
 - **Production Reality:** The full heavy multi-container Docker platform (PostgreSQL 16, Redis 7.2, Apache Airflow scheduler/webserver, Prometheus, Grafana) is designed for local development. We do not claim the public cloud instance hosts the full heavy distributed infrastructure.
 
 ---

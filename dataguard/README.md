@@ -2,7 +2,9 @@
 
 **Primary Repository:** [Charanloyal/featurehub-dataguard](https://github.com/Charanloyal/featurehub-dataguard)
 
-DataGuard is a proactive data reliability and governance platform providing declarative data contracts, backward-compatibility schema diffing, Great Expectations suites, column-level OpenLineage graphs, and automated incident response.
+DataGuard is a data reliability and governance layer (portfolio project) providing declarative data contracts, backward-compatibility schema diffing, Great Expectations suites, column-level OpenLineage-format lineage, and automated incident filing.
+
+> All data is synthetic (`scripts/seed_data.py`). Benchmarks below were measured on a single Windows laptop (local Docker PostgreSQL/Redis, concurrency 1). See the [root README](../README.md).
 
 ---
 
@@ -54,7 +56,7 @@ DataGuard shifts data reliability left by treating data as a product governed by
 
 ## 3. Features
 
-- **27 Production Data Contracts:** Standardized YAML definitions for schemas, constraints, freshness SLAs, and owners stored in PostgreSQL 16.
+- **25 Data Contracts:** Standardized YAML definitions for schemas, constraints, freshness SLAs, and owners stored in PostgreSQL 16.
 - **Automated Schema Diff Engine:** Evaluates contract evolutions and categorizes changes into `SAFE`, `WARNING`, and `BREAKING`.
 - **Pre-Merge CI Quality Gate:** Enforces contract checks in GitHub Actions, blocking pull requests containing breaking changes with exit code 1.
 - **Great Expectations Integration:** Executes high-throughput validation suites (344k+ rows/sec) before feature materialization.
@@ -93,7 +95,7 @@ python -m uvicorn dataguard.api.main:app --port 8001
 | `GET` | `/incidents` | Operational data incidents filtered by status or severity |
 | `POST` | `/incidents/{id}/ack` | Acknowledge incident (`OPEN` $\to$ `ACKNOWLEDGED`) |
 | `POST` | `/incidents/{id}/resolve` | Resolve incident (`ACKNOWLEDGED` $\to$ `RESOLVED`) |
-| `GET` | `/pipelines` | Inventory of 26 production pipeline definitions |
+| `GET` | `/pipelines` | Inventory of 26 pipeline definitions |
 
 ### Example Request (`POST /schema/diff`):
 ```json
@@ -134,7 +136,7 @@ Measured on reproducible local benchmark infrastructure:
 |---|:---:|:---:|:---:|
 | **Schema Breaking Changes Blocked in CI** | **100.0%** (5/5 blocked) | Block all breaking PRs | **PASS** |
 | **Data Quality Evaluation Throughput** | **344,340 rows/sec** (290ms / 100k) | High throughput batch | **PASS** |
-| **Lineage Graph Query Latency** | **6.29 ms** (Mean) | < 25.0 ms | **PASS** |
+| **Column-Lineage Query Latency** (full graph queries ~19 ms mean) | **6.29 ms** (Mean) | < 25.0 ms | **PASS** |
 | **Incident Creation Latency** | **22.09 ms** (P50) | < 50.0 ms | **PASS** |
 | **Circuit Breaker Fast-Fail Abort** | **911 ms** | < 1,050 ms | **PASS** |
 

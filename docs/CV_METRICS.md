@@ -3,7 +3,9 @@
 **Audit Phase**: STAGE 3 — PHASE K: FINAL BENCHMARK + SYSTEM TRUTH AUDIT  
 **Audit Standard**: Transparent separation between empirically verified measurements, unverified human workflow claims, and design goals.  
 
-Every metric listed below is derived from reproducible benchmarks executed on live infrastructure in this repository.
+Every metric listed below is derived from benchmarks in this repository, run once on a single Windows 11 laptop (Python 3.13.9, Redis 7.2 / PostgreSQL 16 in local Docker over loopback, concurrency 1) against synthetic data from `scripts/seed_data.py`.
+
+Corrections from the 2026-10 audit: the repository commits 25 contract YAML files (the "27" figure is the author's local registry state); "26 production pipelines" are 26 pipeline definitions run on synthetic data; the 6.29 ms lineage figure is the column-lineage query only (full graph / traversal queries are ~19–21 ms mean); the 344,340 rows/s quality figure uses the slowest of 3 runs (mean-based value in the JSON is 355,453 rows/s).
 
 ---
 
@@ -20,7 +22,7 @@ Every metric listed below is derived from reproducible benchmarks executed on li
 | **Data Quality Throughput** | High-throughput Great Expectations | **344,340 rows/sec** (290ms / 100k) | **VERIFIED** | `dataguard/benchmarks/final_quality_results.json` | `python scripts/benchmark_quality.py` |
 | **Column Lineage Query Latency** | Sub-10ms graph traversal | **6.29 ms** (Mean) | **VERIFIED** | `dataguard/benchmarks/final_lineage_results.json` | `python scripts/benchmark_lineage.py` |
 | **Incident Deduplication & Indexing** | Sub-25ms incident dispatch | **22.09 ms** (P50 creation) | **VERIFIED** | `dataguard/benchmarks/final_incident_results.json` | `python scripts/benchmark_incidents.py` |
-| **Incident Triage Reduction** | 55% MTTR reduction | **~55% workflow reduction** | **UNVERIFIED / DESIGN GOAL** | `docs/benchmarks/incident_triage_experiment.md` | Single-machine automated test cannot measure multi-human triage shifts |
+| **Incident Triage Reduction** | 55% MTTR reduction | **Not measured** | **UNVERIFIED / DESIGN GOAL** | `docs/benchmarks/incident_triage_experiment.md` | Single-machine automated test cannot measure multi-human triage shifts |
 
 ---
 
