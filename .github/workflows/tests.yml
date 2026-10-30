@@ -63,6 +63,10 @@ jobs:
       - name: Run Seed Data Generator
         run: python scripts/seed_data.py
 
+      # Same order as the README quickstart: the quality, incident and pipeline tests read contracts from the registry.
+      - name: Register Data Contracts
+        run: python scripts/register_contracts.py
+
       - name: Compute Offline Features
         run: python featurehub/computation/engine.py
 
