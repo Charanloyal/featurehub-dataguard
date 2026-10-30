@@ -5,7 +5,6 @@ Measures latency and throughput across contract scales: 10, 50, 100, 250 columns
 Saves comprehensive results to dataguard/benchmarks/ci_gate_results.json.
 """
 
-import os
 import sys
 import time
 import json
@@ -18,7 +17,6 @@ from typing import Dict, Any, List
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from dataguard.ci.gate import CICDContractGatingEngine
-from dataguard.ci.models import GatingVerdict
 
 
 def generate_contract(col_count: int, seed: int = 42) -> Dict[str, Any]:

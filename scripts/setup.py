@@ -3,8 +3,6 @@ Setup and environment initialization script for FeatureHub & DataGuard platform.
 Creates required local directory structures, database tables, and default configurations.
 """
 
-import os
-import sys
 import sqlite3
 from pathlib import Path
 

@@ -5,13 +5,11 @@ Measures p50, p95, p99, min, max, mean latencies and requests/sec using high-res
 """
 
 import sys
-import os
 import json
 import time
 import platform
 import psutil
 import numpy as np
-import pandas as pd
 from datetime import datetime, timezone
 from pathlib import Path
 

@@ -3,10 +3,8 @@ ML Model Training Pipeline
 Uses Point-In-Time correct feature retrieval to construct zero-leakage training datasets and fit fraud risk classifier.
 """
 
-import os
 import json
 import pandas as pd
-import numpy as np
 from pathlib import Path
 from typing import Dict, Any
 
@@ -96,7 +94,7 @@ def train_fraud_model() -> Dict[str, Any]:
         print("  [!] Scikit-learn not available. Using heuristic baseline metrics...")
         auc, prec, rec, f1 = 0.9420, 0.8850, 0.8120, 0.8469
 
-    print(f"  [+] Evaluation Results:")
+    print("  [+] Evaluation Results:")
     print(f"      ROC-AUC  : {auc:.4f}")
     print(f"      Precision: {prec:.4f}")
     print(f"      Recall   : {rec:.4f}")

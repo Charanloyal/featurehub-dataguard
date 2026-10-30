@@ -6,7 +6,6 @@ Outputs results to dataguard/benchmarks/airflow_results.json.
 """
 
 import sys
-import os
 import json
 import time
 import uuid
@@ -22,7 +21,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from dataguard.pipelines.runner import DataGuardPipelineOrchestrator
 from dataguard.pipelines.repository import PipelineRepository
-from dataguard.pipelines.registry import PipelineRegistryService
 from dataguard.pipelines.freshness import FreshnessMonitorService
 
 
@@ -68,7 +66,7 @@ def run_benchmark():
 
     repo = PipelineRepository()
     orchestrator = DataGuardPipelineOrchestrator()
-    freshness = FreshnessMonitorService()
+    FreshnessMonitorService()
 
     system_metrics = get_system_metrics(repo)
     print(f"Host System   : {system_metrics['os']}")

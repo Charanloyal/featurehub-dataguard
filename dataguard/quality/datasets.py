@@ -4,12 +4,10 @@ Provides realistic datasets matching production contracts,
 and deterministic bad-data fixtures for failure scenario testing.
 """
 
-import os
-import uuid
 import random
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
-from typing import Dict, Any, Optional, Tuple, List
+from typing import Optional, Tuple, List
 import pandas as pd
 import numpy as np
 
@@ -24,6 +22,13 @@ class DatasetCatalog:
     Provides deterministic clean and bad-data fixtures for quality testing.
     """
 
+    # Datasets with a dedicated generator in generate_clean_dataset(); any other name gets a
+    # generic placeholder frame that does not follow its contract.
+    GENERATED_DATASETS = frozenset({
+        "customers", "products", "orders", "order_items", "payments",
+        "accounts", "merchants", "transactions", "fraud_events",
+    })
+
     @classmethod
     def get_dataset_path(cls, dataset_name: str) -> Optional[str]:
         """Returns the file path of a dataset if it exists in raw or offline store."""
@@ -31,6 +36,11 @@ class DatasetCatalog:
             if p.exists():
                 return str(p)
         return None
+
+    @classmethod
+    def has_sample_data(cls, dataset_name: str) -> bool:
+        """True when contract-shaped sample data exists on disk or can be generated for the dataset."""
+        return dataset_name in cls.GENERATED_DATASETS or cls.get_dataset_path(dataset_name) is not None
 
     @classmethod
     def load_dataset(cls, dataset_name: str) -> pd.DataFrame:

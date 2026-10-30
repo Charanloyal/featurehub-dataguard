@@ -15,6 +15,25 @@ jobs:
   contract-ci-gate:
     name: "Contract Compatibility Gate"
     runs-on: ubuntu-latest
+    # test_ci_gating.py uses the contract registry in Postgres.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: platform_admin
+          POSTGRES_PASSWORD: platform_secure_pass
+          POSTGRES_DB: featurehub_dataguard
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U platform_admin -d featurehub_dataguard"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: platform_admin
+      POSTGRES_PASSWORD: platform_secure_pass
+      POSTGRES_DB: featurehub_dataguard
     steps:
       - name: Checkout Repository with History
         uses: actions/checkout@v4
@@ -32,6 +51,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Load Database Schema
+        env:
+          PGPASSWORD: platform_secure_pass
+        run: psql -h localhost -U platform_admin -d featurehub_dataguard -v ON_ERROR_STOP=1 -f infrastructure/postgres/init.sql
+
       - name: Execute DataGuard CI Gate (SAFE / WARNING / BREAKING)
         id: gate
         run: |
@@ -42,5 +66,5 @@ jobs:
       - name: Run CI Gating Verification Tests
         if: always()
         run: |
-          pytest dataguard/tests/test_ci_gating.py -v
+          python -m pytest dataguard/tests/test_ci_gating.py -v
 

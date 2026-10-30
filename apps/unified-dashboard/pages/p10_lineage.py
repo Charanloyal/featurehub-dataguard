@@ -143,7 +143,7 @@ def render_page(client: PlatformClient, demo_mode: bool = False):
                 st.markdown(f"**Target Column:** `{col_match.get('target_column')}`")
                 st.markdown(f"**Pipeline:** `{col_match.get('pipeline')}`")
                 st.markdown(f"**Run ID:** `{col_match.get('run_id')}`")
-                st.markdown(f"**Transformation Logic:**")
+                st.markdown("**Transformation Logic:**")
                 st.info(f"💡 {col_match.get('transformation', 'Direct Pass-Through')}")
 
             with dcol2:

@@ -6,7 +6,7 @@ Deterministically classifies state into FRESH, WARNING, or STALE.
 
 import pandas as pd
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional, Tuple, List, Union
+from typing import Dict, Any, Optional, Union
 
 from dataguard.quality.models import FreshnessStatus
 

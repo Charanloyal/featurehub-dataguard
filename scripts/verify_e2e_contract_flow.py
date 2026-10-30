@@ -27,7 +27,7 @@ def main():
     # STAGE 1: YAML Contract
     # ---------------------------------------------------------
     contract_path = BASE_DIR / "dataguard" / "contracts" / "orders.yaml"
-    print(f"\n[1] YAML CONTRACT SOURCE:")
+    print("\n[1] YAML CONTRACT SOURCE:")
     print(f"    File: {contract_path}")
     with open(contract_path, "r", encoding="utf-8") as f:
         raw_yaml = f.read()
@@ -42,7 +42,7 @@ def main():
     # ---------------------------------------------------------
     # STAGE 2: Validator
     # ---------------------------------------------------------
-    print(f"\n[2] STRUCTURAL VALIDATOR (Phase A Engine):")
+    print("\n[2] STRUCTURAL VALIDATOR (Phase A Engine):")
     is_valid, errors = ContractValidator.validate_contract(parsed_contract)
     print(f"    Valid    : {is_valid}")
     print(f"    Errors   : {errors if errors else 'None (100% compliant)'}")
@@ -51,7 +51,7 @@ def main():
     # ---------------------------------------------------------
     # STAGE 3: Persistent Database (PostgreSQL)
     # ---------------------------------------------------------
-    print(f"\n[3] PERSISTENT DATABASE REGISTRY (PostgreSQL Service):")
+    print("\n[3] PERSISTENT DATABASE REGISTRY (PostgreSQL Service):")
     registry = ContractRegistryService()
     engine_name = registry.get_db_engine_name()
     assert engine_name == "postgresql", f"Expected PostgreSQL database engine, got '{engine_name}'"
@@ -68,7 +68,7 @@ def main():
         )
         reg_row = res.fetchone()
         assert reg_row is not None, "Record not found in contract_registry table"
-        print(f"    PostgreSQL Row (contract_registry):")
+        print("    PostgreSQL Row (contract_registry):")
         print(f"      - dataset_name   : {reg_row[0]}")
         print(f"      - latest_version : {reg_row[1]}")
         print(f"      - owner          : {reg_row[2]}")
@@ -95,18 +95,18 @@ def main():
     # ---------------------------------------------------------
     # STAGE 4 & 5: FastAPI Application & GET /contracts
     # ---------------------------------------------------------
-    print(f"\n[4 & 5] FASTAPI REST API (GET /contracts & GET /contracts/orders):")
+    print("\n[4 & 5] FASTAPI REST API (GET /contracts & GET /contracts/orders):")
     client = TestClient(app)
 
     # Call GET /contracts
     resp_list = client.get("/contracts")
-    print(f"    HTTP GET /contracts")
+    print("    HTTP GET /contracts")
     print(f"      Status Code : {resp_list.status_code} OK")
     print(f"      Total Items : {len(resp_list.json())} contracts returned from PostgreSQL")
 
     # Call GET /contracts/orders
     resp_item = client.get("/contracts/orders")
-    print(f"\n    HTTP GET /contracts/orders")
+    print("\n    HTTP GET /contracts/orders")
     print(f"      Status Code : {resp_item.status_code} OK")
     api_payload = resp_item.json()
     print(f"      Dataset     : {api_payload.get('dataset')}")
@@ -120,7 +120,7 @@ def main():
     recovered_from_api = yaml.safe_load(api_payload["yaml_content"])
     assert recovered_from_api["dataset"] == parsed_contract["dataset"]
     assert recovered_from_api["columns"] == parsed_contract["columns"]
-    print(f"\n[+] ROUND-TRIP VERIFICATION: 100% IDENTICAL TO SOURCE YAML")
+    print("\n[+] ROUND-TRIP VERIFICATION: 100% IDENTICAL TO SOURCE YAML")
     print("=" * 70)
 
     # ---------------------------------------------------------

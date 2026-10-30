@@ -3,10 +3,8 @@ Point-In-Time (PIT) Correct Feature Join Engine
 Guarantees zero target leakage during training dataset generation by performing timestamp-aware joins.
 """
 
-from typing import List, Dict, Any, Tuple
 import pandas as pd
 import numpy as np
-from pathlib import Path
 
 class DataLeakageError(Exception):
     """Raised when future feature timestamps (timestamp > observation_time) leak into training data."""

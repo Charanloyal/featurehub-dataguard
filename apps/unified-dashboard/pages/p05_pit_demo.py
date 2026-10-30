@@ -4,8 +4,6 @@ Interactive demonstration proving zero target leakage during training dataset co
 """
 
 import streamlit as st
-import pandas as pd
-from datetime import datetime, timezone
 from apps.unified_dashboard.services.platform_client import PlatformClient
 from apps.unified_dashboard.components.banners import render_decision_banner
 from apps.unified_dashboard.config import DEFAULT_ENTITY_ID
@@ -30,15 +28,15 @@ def render_page(client: PlatformClient, demo_mode: bool = False):
     # 1. Inputs
     col1, col2 = st.columns(2)
     with col1:
-        entity_id = st.text_input("Entity ID (Customer)", value=DEFAULT_ENTITY_ID)
+        st.text_input("Entity ID (Customer)", value=DEFAULT_ENTITY_ID)
     with col2:
-        event_time_str = st.text_input("Observation Event Timestamp (UTC)", value="2026-10-02T12:00:00Z")
+        st.text_input("Observation Event Timestamp (UTC)", value="2026-10-02T12:00:00Z")
 
     run_btn = st.button("🚀 Evaluate Point-in-Time Join vs Naive Join", use_container_width=True)
 
     if run_btn:
         with st.spinner("Executing timestamp-aware backward asof join..."):
-            res = client.run_demo_scenario("DEMO 6: Point-in-Time Leakage Prevention")
+            client.run_demo_scenario("DEMO 6: Point-in-Time Leakage Prevention")
 
         st.subheader("Join Comparison & Leakage Analysis")
 

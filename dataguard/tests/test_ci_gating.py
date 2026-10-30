@@ -4,15 +4,11 @@ Tests 3-stage validation: Contract Structural Validation -> Schema Diff -> Quali
 """
 
 import copy
-import pytest
 from pathlib import Path
 from fastapi.testclient import TestClient
 
 from dataguard.ci.models import (
-    GatingVerdict,
-    GatingChange,
-    ContractGatingResult,
-    PRGatingSummary
+    GatingVerdict
 )
 from dataguard.ci.gate import CICDContractGatingEngine
 from dataguard.api.main import app
@@ -528,3 +524,41 @@ def test_ci_gate_real_contracts_consistency():
         assert res.contract_valid is True, f"Contract {yf.name} failed structure validation"
         assert res.verdict == GatingVerdict.SAFE, f"Contract {yf.name} produced non-safe diff against itself"
         assert res.can_merge is True
+
+def test_dataset_catalog_sample_data_detection():
+    """Only datasets with a dedicated generator or a data file count as having sample data."""
+    from dataguard.quality.datasets import DatasetCatalog
+
+    assert DatasetCatalog.has_sample_data("payments") is True
+    assert DatasetCatalog.has_sample_data("test_orders") is False
+
+
+def test_ci_gate_does_not_score_contract_without_sample_data():
+    """A contract with no sample data is left unscored instead of being reported as a quality regression."""
+    target = copy.deepcopy(BASE_CONTRACT)
+    res = CICDContractGatingEngine.evaluate_contract_change(
+        baseline_contract=BASE_CONTRACT,
+        target_contract=target,
+        validate_quality=True
+    )
+    assert res.verdict == GatingVerdict.SAFE
+    assert res.can_merge is True
+    assert res.quality_score is None
+    assert res.quality_regression_passed is True
+
+
+def test_ci_gate_scores_contract_with_sample_data():
+    """Contracts with generated sample data still go through the quality regression check."""
+    import yaml
+    contract_path = Path(__file__).resolve().parent.parent / "contracts" / "payments.yaml"
+    with open(contract_path, "r", encoding="utf-8") as f:
+        contract_data = yaml.safe_load(f)
+
+    res = CICDContractGatingEngine.evaluate_contract_change(
+        baseline_contract=contract_data,
+        target_contract=contract_data,
+        validate_quality=True
+    )
+    assert res.quality_score is not None
+    assert res.quality_regression_passed is True
+    assert res.verdict == GatingVerdict.SAFE

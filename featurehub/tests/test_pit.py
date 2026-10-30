@@ -3,11 +3,9 @@ Unit and Integration Tests for Point-In-Time Correctness and Data Leakage Preven
 Includes explicit tests for no future data leakage, timestamp constraints, TTL, missing historical features, and multi-entity joins.
 """
 
-import pytest
 import pandas as pd
-import numpy as np
 from datetime import datetime, timedelta, timezone
-from featurehub.point_in_time.pit_engine import PointInTimeJoinEngine, DataLeakageError
+from featurehub.point_in_time.pit_engine import PointInTimeJoinEngine
 
 def test_no_future_features_used():
     """Verify that feature vectors with timestamps after observation timestamps are never joined."""
@@ -42,16 +40,12 @@ def test_feature_timestamp_constraint():
     obs_time = datetime(2026, 1, 10, 12, 0, 0, tzinfo=timezone.utc)
     future_time = obs_time + timedelta(minutes=5)
 
-    entity_df = pd.DataFrame([
-        {"customer_id": "cust_002", "timestamp": obs_time.isoformat()}
-    ])
-
     corrupted_df = pd.DataFrame([
         {"customer_id": "cust_002", "obs_dt": pd.to_datetime(obs_time), "feat_dt": pd.to_datetime(future_time)}
     ])
 
     leakage_mask = corrupted_df['feat_dt'] > corrupted_df['obs_dt']
-    assert leakage_mask.any() == True
+    assert leakage_mask.any()
 
 def test_training_dataset_no_leakage():
     """Validate full training dataset generation across historical observations."""

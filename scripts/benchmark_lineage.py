@@ -6,7 +6,6 @@ Outputs results to dataguard/benchmarks/lineage_results.json.
 """
 
 import sys
-import os
 import json
 import time
 import uuid
@@ -112,7 +111,7 @@ def run_lineage_benchmark(iterations: int = 25):
     upstream_times: List[float] = []
     for _ in range(iterations):
         t0 = time.perf_counter()
-        up = repo.get_upstream("customer_features", max_depth=5)
+        repo.get_upstream("customer_features", max_depth=5)
         t1 = time.perf_counter()
         upstream_times.append((t1 - t0) * 1000.0)
 
@@ -121,7 +120,7 @@ def run_lineage_benchmark(iterations: int = 25):
     downstream_times: List[float] = []
     for _ in range(iterations):
         t0 = time.perf_counter()
-        down = repo.get_downstream("transactions_clean", max_depth=5)
+        repo.get_downstream("transactions_clean", max_depth=5)
         t1 = time.perf_counter()
         downstream_times.append((t1 - t0) * 1000.0)
 
@@ -130,7 +129,7 @@ def run_lineage_benchmark(iterations: int = 25):
     column_times: List[float] = []
     for _ in range(iterations):
         t0 = time.perf_counter()
-        cols = repo.get_column_lineage("transaction_features")
+        repo.get_column_lineage("transaction_features")
         t1 = time.perf_counter()
         column_times.append((t1 - t0) * 1000.0)
 

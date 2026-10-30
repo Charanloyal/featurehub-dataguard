@@ -3,7 +3,6 @@ Tests for Dashboard Components & Logic
 Validates formatting functions, chart generation, decision banners, and badge rendering.
 """
 
-import pytest
 import sys
 from pathlib import Path
 from datetime import datetime, timezone

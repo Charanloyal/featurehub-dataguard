@@ -5,7 +5,7 @@ Handles persistent storage and retrieval for incidents and incident events in Po
 
 from pathlib import Path
 from datetime import datetime, timezone
-from typing import Dict, Any, List, Optional, Tuple
+from typing import List, Optional
 from sqlalchemy import (
     create_engine,
     MetaData,
@@ -13,8 +13,6 @@ from sqlalchemy import (
     Column,
     String,
     Integer,
-    Float,
-    Boolean,
     Text,
     DateTime,
     ForeignKey,

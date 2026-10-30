@@ -9,7 +9,6 @@ import yaml
 from pathlib import Path
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(BASE_DIR))
@@ -95,17 +94,20 @@ elif page == "3. Schema Diff Engine":
     if "Scenario 1" in diff_scenario:
         target_c["columns"].append({"name": "new_experimental_flag", "type": "integer", "nullable": True})
     elif "Scenario 2" in diff_scenario:
-        if target_c["columns"]: target_c["columns"].pop(0)
+        if target_c["columns"]:
+            target_c["columns"].pop(0)
     elif "Scenario 3" in diff_scenario:
-        if target_c["columns"]: target_c["columns"][0]["type"] = "numeric"
+        if target_c["columns"]:
+            target_c["columns"][0]["type"] = "numeric"
     elif "Scenario 4" in diff_scenario:
-        if len(target_c["columns"]) > 1: target_c["columns"][1]["nullable"] = False
+        if len(target_c["columns"]) > 1:
+            target_c["columns"][1]["nullable"] = False
 
     diff_res = SchemaDiffEngine.compare_contracts(base_c, target_c)
 
     st.subheader("Diff Analysis Output")
     if diff_res["classification"] == "SAFE":
-        st.success(f"Classification: SAFE (CI PASS)")
+        st.success("Classification: SAFE (CI PASS)")
     else:
         st.error(f"Classification: {diff_res['classification']} (CI FAIL - BLOCKED)")
 

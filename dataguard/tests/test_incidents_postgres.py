@@ -15,7 +15,7 @@ from dataguard.quality.datasets import DatasetCatalog
 from dataguard.quality.models import QualityStatus
 from dataguard.incidents.repository import IncidentRepository
 from dataguard.incidents.manager import IncidentManager
-from dataguard.incidents.models import IncidentStatus, IncidentSeverity
+from dataguard.incidents.models import IncidentStatus
 from dataguard.api.main import app
 
 

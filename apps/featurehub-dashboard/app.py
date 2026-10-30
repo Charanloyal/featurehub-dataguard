@@ -5,11 +5,9 @@ Multi-page production dashboard for Feature Registry, Online/Offline stores, PIT
 
 import sys
 import json
-import os
 from pathlib import Path
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 from datetime import datetime, timezone
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -18,7 +16,6 @@ sys.path.insert(0, str(BASE_DIR))
 from featurehub.registry.service import FeatureRegistryService
 from featurehub.online_store.redis_store import RedisOnlineStore
 from featurehub.inference.predictor import RealTimePredictor
-from featurehub.point_in_time.pit_engine import PointInTimeJoinEngine
 
 st.set_page_config(
     page_title="FeatureHub | Real-Time Feature Store",

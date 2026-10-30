@@ -5,7 +5,7 @@ developers, PR reviewers, and CI/CD pipeline blocking logs.
 """
 
 from typing import Union, Dict, Any
-from dataguard.schema.models import SchemaDiffResult, DiffSeverity
+from dataguard.schema.models import SchemaDiffResult
 
 def generate_human_report(diff_result: Union[SchemaDiffResult, Dict[str, Any]]) -> str:
     """

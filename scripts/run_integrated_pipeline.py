@@ -28,7 +28,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
         pass
 
 from featurehub.integration.service import FeatureHubDataGuardIntegrator
-from featurehub.integration.models import StageStatus, IntegrationStage
+from featurehub.integration.models import StageStatus
 
 
 def main():
@@ -100,13 +100,13 @@ def main():
     else:
         print("\n🛑 PIPELINE EXECUTION HALTED (DATA INTEGRITY PROTECTION ACTIVATED)!")
         print(f"  • Failing Reason         : {result.error_message}")
-        print(f"  • OpenLineage Status     : FAILED RUN EVENT EMITTED")
+        print("  • OpenLineage Status     : FAILED RUN EVENT EMITTED")
         if result.incident_id:
             print("\n🚨 OPERATIONAL INCIDENT FILED IN POSTGRESQL:")
             print(f"  • Incident ID            : {result.incident_id}")
             print(f"  • Assigned Owner         : {result.incident_owner}")
             print(f"  • Severity Classification: {result.incident_severity}")
-            print(f"  • State                  : OPEN")
+            print("  • State                  : OPEN")
         print("  • Online Store Status    : PROTECTED (Corrupted features blocked from Redis)")
         sys.exit(1)
 

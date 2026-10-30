@@ -4,9 +4,7 @@ Executes micro-benchmarks for Contract Parsing, Schema Drift Engine, Quality Val
 Stores output in dataguard/benchmarks/results.json.
 """
 
-import os
 import sys
-import os
 from pathlib import Path
 BENCHMARK_DIR = Path(__file__).resolve().parent
 BASE_DIR = BENCHMARK_DIR.parent.parent
@@ -15,8 +13,6 @@ sys.path.insert(0, str(BASE_DIR))
 import json
 import time
 import yaml
-import platform
-import psutil
 import pandas as pd
 import numpy as np
 from datetime import datetime, timezone

@@ -7,13 +7,11 @@ Generates dataset lineage, column-level lineage, historical runs, and a determin
 import sys
 import uuid
 from pathlib import Path
-from datetime import datetime, timezone
 
 # Ensure workspace root is in sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from dataguard.lineage.collector import LineageCollector
-from dataguard.lineage.column_lineage import PROJECT_COLUMN_MAPPINGS
 from dataguard.lineage.repository import LineageRepository
 from dataguard.incidents.manager import IncidentManager
 from dataguard.incidents.repository import IncidentRepository
@@ -135,7 +133,7 @@ def populate_lineage_graph():
     # -------------------------------------------------------------
     print("\n[+] Executing Pipeline: reconciliation_pipeline (DETERMINISTIC FAILURE SCENARIO)...")
     failed_run_id = f"run_fail_{uuid.uuid4().hex[:12]}"
-    run_rec = collector.start_run(
+    collector.start_run(
         pipeline_id="reconciliation_pipeline",
         job_name="reconciliation_pipeline",
         inputs=["transactions_clean", "postgres.accounts"],

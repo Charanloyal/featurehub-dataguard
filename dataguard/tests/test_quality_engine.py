@@ -6,7 +6,6 @@ freshness SLAs, referential integrity, scoring, persistence, and API endpoints.
 
 import pytest
 import pandas as pd
-import numpy as np
 from datetime import datetime, timezone, timedelta
 from fastapi.testclient import TestClient
 
@@ -15,9 +14,7 @@ from dataguard.contracts.registry import ContractRegistryService, ContractNotFou
 from dataguard.quality.models import (
     QualityStatus,
     QualitySeverity,
-    FreshnessStatus,
-    QualityRunResult,
-    QualityCheckResult
+    FreshnessStatus
 )
 from dataguard.quality.expectations import ContractExpectationBuilder
 from dataguard.quality.freshness import FreshnessValidator
@@ -25,7 +22,6 @@ from dataguard.quality.referential import ReferentialIntegrityValidator
 from dataguard.quality.datasets import DatasetCatalog
 from dataguard.quality.result_store import QualityResultStore
 from dataguard.quality.runner import DataQualityRunner
-from dataguard.quality.service import DataQualityEngine
 
 
 @pytest.fixture
@@ -237,7 +233,7 @@ def test_results_persisted(test_runner, tmp_store):
 # 14. Latest run retrieval
 def test_latest_run_retrieval(test_runner, tmp_store):
     clean_df = DatasetCatalog.generate_clean_dataset("orders", num_rows=20)
-    res1 = test_runner.run_validation("orders", df=clean_df, validate_referential=False)
+    test_runner.run_validation("orders", df=clean_df, validate_referential=False)
     res2 = test_runner.run_validation("orders", df=clean_df, validate_referential=False)
 
     latest = tmp_store.get_latest_run("orders")

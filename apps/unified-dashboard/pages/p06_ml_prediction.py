@@ -73,7 +73,7 @@ def render_page(client: PlatformClient, demo_mode: bool = False):
         with dcol3:
             st.metric("Inference Latency", f"{infer_latency_ms} ms", delta="Sub-10ms SLA")
         with dcol4:
-            st.metric("Model Version", model_version, delta=f"Online Redis Sync")
+            st.metric("Model Version", model_version, delta="Online Redis Sync")
 
         # Feature Vector Breakdown
         st.markdown("#### Feature Attribution: Online Redis vs Request Time Inputs")

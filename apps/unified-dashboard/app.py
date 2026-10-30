@@ -24,7 +24,7 @@ if "apps.unified_dashboard" not in sys.modules:
     setattr(apps, "unified_dashboard", ud_mod)
 
 import streamlit as st
-from apps.unified_dashboard.config import APP_TITLE, APP_SUBTITLE, ASSETS_DIR
+from apps.unified_dashboard.config import APP_TITLE, ASSETS_DIR
 from apps.unified_dashboard.services.platform_client import PlatformClient
 from apps.unified_dashboard.components.navbar import render_sidebar
 from apps.unified_dashboard.pages import (

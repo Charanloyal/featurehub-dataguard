@@ -3,10 +3,8 @@ DataGuard OpenLineage Live PostgreSQL 16 Integration Tests.
 Executes real pipeline lineage, column mappings, and incident references against the live PostgreSQL container.
 """
 
-import os
 import uuid
 import pytest
-from datetime import datetime, timezone
 from sqlalchemy import text
 
 from dataguard.contracts.registry import get_default_db_url

@@ -4,12 +4,7 @@ Orchestrates automated pre-merge gating for Pull Requests:
 Contract Validation -> Schema Diff Engine -> Data Quality Regression -> Merge Verdict.
 """
 
-import os
-import sys
-import yaml
-import subprocess
 import logging
-from pathlib import Path
 from typing import Dict, Any, List, Optional, Tuple
 
 from dataguard.ci.models import (
@@ -118,7 +113,9 @@ class CICDContractGatingEngine:
         # ----------------------------------------------------------------------
         # Stage 3: Data Quality Regression Testing
         # ----------------------------------------------------------------------
-        if validate_quality and not result.is_breaking:
+        # Only datasets with contract-shaped sample data can be scored; scoring a placeholder frame
+        # would report a regression for every contract without sample data. Those stay unscored (N/A).
+        if validate_quality and not result.is_breaking and DatasetCatalog.has_sample_data(ds_name):
             try:
                 sample_df = DatasetCatalog.load_dataset(ds_name)
                 if sample_df is not None and not sample_df.empty:
@@ -177,8 +174,8 @@ class CICDContractGatingEngine:
             )
         elif "ENUM" in ch_type and "REMOVED" in ch_type:
             return (
-                f"Removing allowed enum values will cause validation failures for existing events. "
-                f"Deprecate values without removing them immediately."
+                "Removing allowed enum values will cause validation failures for existing events. "
+                "Deprecate values without removing them immediately."
             )
         elif "CONSTRAINT" in ch_type or "RANGE" in ch_type:
             return "Tightened bounds may reject edge-case values. Verify historical distribution bounds."

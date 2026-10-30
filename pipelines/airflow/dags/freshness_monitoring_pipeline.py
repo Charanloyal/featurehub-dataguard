@@ -5,7 +5,6 @@ Calculates real delays, publishes Prometheus metrics, and generates incidents on
 """
 
 from datetime import datetime, timedelta
-from typing import Dict, Any, List
 
 try:
     from airflow import DAG

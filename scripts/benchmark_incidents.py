@@ -116,7 +116,7 @@ def main():
     # Re-use the last failing check
     for _ in range(iterations):
         t0 = time.perf_counter()
-        inc_dup = mgr.handle_check_failure(mock_check, dataset="orders", pipeline="benchmark_pipeline")
+        mgr.handle_check_failure(mock_check, dataset="orders", pipeline="benchmark_pipeline")
         elapsed = (time.perf_counter() - t0) * 1000.0
         dedup_latencies.append(elapsed)
 

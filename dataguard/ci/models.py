@@ -5,7 +5,7 @@ contract validation gates, quality regression results, and merge decisions.
 """
 
 from enum import Enum
-from typing import List, Dict, Any, Optional
+from typing import List, Optional
 from pydantic import BaseModel, Field
 
 

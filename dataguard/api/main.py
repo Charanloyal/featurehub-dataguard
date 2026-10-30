@@ -3,16 +3,13 @@ DataGuard REST API Application
 FastAPI application delivering Contract Registry, Schema Diff Engine, Data Quality Validation, Incidents & Lineage.
 """
 
-import os
-import yaml
-from pathlib import Path
 from typing import List, Optional, Dict, Any, Union
 from datetime import datetime, timezone
 import time
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Query, Response, status, Body
 from pydantic import BaseModel
-from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 
 from dataguard.contracts.registry import (
     ContractRegistryService, 
@@ -23,30 +20,21 @@ from dataguard.contracts.validator import ContractValidationError
 from dataguard.metrics import (
     CONTRACT_REGISTRY_REQUEST_COUNT,
     DATAGUARD_REQUEST_COUNT,
-    DATAGUARD_LATENCY,
-    INCIDENTS_COUNT
+    DATAGUARD_LATENCY
 )
 from dataguard.schema.diff import SchemaDiffEngine
 from dataguard.schema.models import SchemaDiffRequest, SchemaDiffResult
 from dataguard.quality.service import DataQualityEngine
 from dataguard.quality.models import (
     QualityRunResult,
-    QualitySummaryResponse,
-    QualityCheckResult
+    QualitySummaryResponse
 )
 from dataguard.incidents.service import IncidentService
 from dataguard.incidents.models import (
-    Incident,
-    IncidentEvent,
-    IncidentStatus,
-    IncidentSeverity,
-    IncidentSummary,
     InvalidStateTransitionError
 )
 from dataguard.lineage.service import LineageService
 from dataguard.ci.models import (
-    GatingVerdict,
-    GatingChange,
     ContractGatingResult,
     PRGatingSummary
 )

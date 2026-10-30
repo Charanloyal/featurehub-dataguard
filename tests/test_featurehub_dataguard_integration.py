@@ -6,14 +6,12 @@ and the Failure Paths (Bad Data / Breaking Schema / Stale Features -> FAILED -> 
 """
 
 import pytest
-from datetime import datetime, timezone
 from fastapi.testclient import TestClient
 
 from featurehub.integration.service import FeatureHubDataGuardIntegrator
 from featurehub.integration.models import StageStatus, IntegrationStage
 from featurehub.api.main import app
 from featurehub.online_store.redis_store import RedisOnlineStore
-from dataguard.contracts.registry import ContractRegistryService
 from dataguard.incidents.repository import IncidentRepository
 from dataguard.lineage.repository import LineageRepository
 

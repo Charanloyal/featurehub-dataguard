@@ -8,7 +8,7 @@ FeatureHub API -> ML Prediction.
 """
 
 from datetime import datetime, timedelta
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
 try:
     from airflow import DAG

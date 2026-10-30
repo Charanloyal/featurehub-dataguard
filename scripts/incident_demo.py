@@ -24,10 +24,10 @@ from dataguard.quality.referential import ReferentialIntegrityValidator
 
 
 def run_scenario(name: str, dataset_name: str, df, runner: DataQualityRunner, mgr: IncidentManager, actor: str = "oncall_engineer"):
-    print(f"\n================================================================================")
+    print("\n================================================================================")
     print(f"RUNNING SCENARIO: {name}")
     print(f"Dataset: {dataset_name} | Rows: {len(df)}")
-    print(f"================================================================================")
+    print("================================================================================")
 
     # 1. Run Data Quality Validation
     print("1. Running Great Expectations quality validation suite...")
@@ -41,7 +41,7 @@ def run_scenario(name: str, dataset_name: str, df, runner: DataQualityRunner, mg
         return
 
     failed_check = failing_checks[0]
-    print(f"2. Detected Quality Failure:")
+    print("2. Detected Quality Failure:")
     print(f"   Check Name       : {failed_check.check_name}")
     print(f"   Expectation Type : {failed_check.expectation_type}")
     print(f"   Target Column    : {failed_check.column}")
@@ -82,9 +82,9 @@ def run_scenario(name: str, dataset_name: str, df, runner: DataQualityRunner, mg
 
 
 def run_referential_scenario(runner: DataQualityRunner, mgr: IncidentManager, actor: str = "oncall_engineer"):
-    print(f"\n================================================================================")
-    print(f"RUNNING SCENARIO 4: Referential Integrity Failure (Foreign Key Broken)")
-    print(f"================================================================================")
+    print("\n================================================================================")
+    print("RUNNING SCENARIO 4: Referential Integrity Failure (Foreign Key Broken)")
+    print("================================================================================")
 
     df_ord, df_cust = DatasetCatalog.bad_orders_missing_customer()
     ref_check = ReferentialIntegrityValidator.validate_referential_integrity(
@@ -114,8 +114,8 @@ def run_referential_scenario(runner: DataQualityRunner, mgr: IncidentManager, ac
     print(f"   Assigned Owner       : {inc.owner}")
     print(f"   Status               : {inc.status.value}")
 
-    acked = mgr.acknowledge_incident(inc.incident_id, actor=actor, notes="Notified merchant ops regarding missing customer ID.")
-    resolved = mgr.resolve_incident(inc.incident_id, actor=actor, notes="Backfilled missing customer records.")
+    mgr.acknowledge_incident(inc.incident_id, actor=actor, notes="Notified merchant ops regarding missing customer ID.")
+    mgr.resolve_incident(inc.incident_id, actor=actor, notes="Backfilled missing customer records.")
 
     events = mgr.get_events(inc.incident_id)
     print(f"3. Audit Trail ({len(events)} events):")
@@ -154,9 +154,9 @@ def main():
     run_scenario("Scenario 5: Stale Dataset SLA Violation", "orders", df_stale, runner, mgr)
 
     # Platform Summary
-    print(f"\n================================================================================")
+    print("\n================================================================================")
     print("DATAGUARD INCIDENT SUMMARY & METRICS")
-    print(f"================================================================================")
+    print("================================================================================")
     summary = mgr.get_summary()
     print(f"Total Incidents Tracked   : {summary.total_incidents}")
     print(f"Open Incidents            : {summary.open_incidents}")

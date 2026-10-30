@@ -5,7 +5,6 @@ and incident correlation using live PostgreSQL 16 metadata.
 """
 
 import sys
-import json
 from pathlib import Path
 
 # Ensure workspace root is in sys.path

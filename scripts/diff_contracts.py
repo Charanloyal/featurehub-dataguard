@@ -12,7 +12,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR))
 
-from dataguard.schema.diff import SchemaDiffEngine, DiffSeverity
+from dataguard.schema.diff import SchemaDiffEngine
 from dataguard.contracts.registry import ContractRegistryService
 
 

@@ -24,7 +24,7 @@ def render_page(client: PlatformClient, demo_mode: bool = False):
     with col1:
         st.markdown("Monitor status, response latency, and connectivity state across datastores and APIs.")
     with col2:
-        refresh = st.button("🔄 Refresh Health Diagnostics", use_container_width=True)
+        st.button("🔄 Refresh Health Diagnostics", use_container_width=True)
 
     # Perform real health checks
     checks = client.get_system_health()

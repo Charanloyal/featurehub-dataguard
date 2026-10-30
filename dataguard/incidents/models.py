@@ -4,7 +4,7 @@ Defines entity models, status lifecycles, severities, and audit trail events.
 """
 
 from enum import Enum
-from typing import Dict, Any, List, Optional, Union
+from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
 from pydantic import BaseModel, Field
 

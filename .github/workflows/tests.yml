@@ -9,6 +9,34 @@ on:
 jobs:
   pytest-suite:
     runs-on: ubuntu-latest
+    # Same throwaway databases as docker-compose.yml; the credentials are the local-demo defaults.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: platform_admin
+          POSTGRES_PASSWORD: platform_secure_pass
+          POSTGRES_DB: featurehub_dataguard
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U platform_admin -d featurehub_dataguard"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+      redis:
+        image: redis:7.2-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      POSTGRES_HOST: localhost
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: platform_admin
+      POSTGRES_PASSWORD: platform_secure_pass
+      POSTGRES_DB: featurehub_dataguard
+      REDIS_HOST: localhost
+      REDIS_PORT: "6379"
     steps:
       - uses: actions/checkout@v4
 
@@ -23,11 +51,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # docker-compose mounts this file into the Postgres container; service containers start before checkout.
+      - name: Load Database Schema
+        env:
+          PGPASSWORD: platform_secure_pass
+        run: psql -h localhost -U platform_admin -d featurehub_dataguard -v ON_ERROR_STOP=1 -f infrastructure/postgres/init.sql
+
       - name: Initialize Dev Environment
         run: python scripts/setup.py
 
       - name: Run Seed Data Generator
         run: python scripts/seed_data.py
+
+      # Same order as the README quickstart: the quality, incident and pipeline tests read contracts from the registry.
+      - name: Register Data Contracts
+        run: python scripts/register_contracts.py
 
       - name: Compute Offline Features
         run: python featurehub/computation/engine.py

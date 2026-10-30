@@ -3,7 +3,6 @@ DataGuard Airflow Plugin (Phase G).
 Registers DataGuard operators and hooks inside Apache Airflow.
 """
 
-from datetime import timedelta
 from typing import Dict, Any, Optional
 
 try:

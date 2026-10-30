@@ -30,7 +30,7 @@ def run_platform_demo():
     # Step 3: Materialize to Online Store
     print("\n[Step 3] Materializing Feature Vectors to Online Store...")
     mat = FeatureMaterializer()
-    mat_res = mat.materialize_all()
+    mat.materialize_all()
 
     # Step 4: Real-Time Inference
     print("\n[Step 4] Executing Real-Time Fraud Probability Inference...")
@@ -67,7 +67,7 @@ def run_platform_demo():
     diff = SchemaDiffEngine.compare_contracts(base_contract, pr_breaking_contract)
     print(f"  [+] PR Schema Diff Result: {diff['classification']}")
     print(f"      Is Breaking?        : {diff['is_breaking']}")
-    print(f"      CI Action           : BLOCKED (Preventing Downstream Pipeline Crash)")
+    print("      CI Action           : BLOCKED (Preventing Downstream Pipeline Crash)")
 
     print("\n============================================================")
     print("  DEMONSTRATION COMPLETED SUCCESSFULLY")

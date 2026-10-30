@@ -9,14 +9,12 @@ import requests
 import json
 from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
-from pathlib import Path
 from sqlalchemy import text
 
 from apps.unified_dashboard.config import (
     DATAGUARD_API_URL,
     API_TIMEOUT_SECONDS,
     HEALTH_CHECK_TIMEOUT_SECONDS,
-    CONTRACTS_DIR,
     DATAGUARD_BENCHMARKS_DIR,
 )
 

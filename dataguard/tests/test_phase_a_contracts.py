@@ -3,7 +3,6 @@ Phase A Verification Tests for DataGuard Data Contract Engine
 Verifies structural validity, required fields, column schemas, and constraints across 25 YAML contracts.
 """
 
-import pytest
 import yaml
 from pathlib import Path
 
