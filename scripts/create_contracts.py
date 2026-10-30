@@ -3,7 +3,6 @@ DataGuard Data Contract Generator
 Creates 25 production-style YAML contracts with strict column constraints, data types, and SLAs.
 """
 
-import os
 import yaml
 from pathlib import Path
 

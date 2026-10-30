@@ -16,13 +16,12 @@ import json
 import platform
 from pathlib import Path
 from datetime import datetime, timezone
-from typing import Dict, Any, List
+from typing import Dict, List
 
 # Ensure workspace root is in sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from featurehub.integration.service import FeatureHubDataGuardIntegrator
-from featurehub.integration.models import StageStatus
 
 
 def benchmark_integration_platform():

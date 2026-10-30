@@ -6,14 +6,6 @@ Coordinates event collection, persistent storage, and graph/column lineage trave
 from typing import List, Dict, Any, Optional
 from pathlib import Path
 
-from dataguard.lineage.models import (
-    LineageRun,
-    LineageGraphResponse,
-    DatasetLineageSummary,
-    UpstreamLineageResponse,
-    DownstreamLineageResponse,
-    ColumnLineageDetail
-)
 from dataguard.lineage.events import RunEvent
 from dataguard.lineage.repository import LineageRepository
 from dataguard.lineage.collector import LineageCollector

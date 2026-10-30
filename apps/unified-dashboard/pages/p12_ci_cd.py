@@ -4,7 +4,6 @@ Displays automated pre-merge evaluation: Contract Validation -> Schema Diff -> Q
 """
 
 import streamlit as st
-import pandas as pd
 from apps.unified_dashboard.services.platform_client import PlatformClient
 from apps.unified_dashboard.components.metric_cards import render_kpi_row
 from apps.unified_dashboard.components.banners import render_decision_banner
@@ -59,7 +58,6 @@ def render_page(client: PlatformClient, demo_mode: bool = False):
     # 2. Gate Metrics Row
     contracts_checked = ci_data.get("contracts_checked", 25)
     safe_changes = ci_data.get("safe_changes", 24)
-    warnings = ci_data.get("warnings", 1)
     breaking_changes = ci_data.get("breaking_changes_detected", 0)
     verdict = ci_data.get("verdict", "SAFE")
 

@@ -3,7 +3,6 @@ DataGuard Phase A Data Contract Generator
 Creates 25 production-style YAML data contracts with rich column definitions, constraints, descriptions, and SLAs.
 """
 
-import os
 import yaml
 from pathlib import Path
 

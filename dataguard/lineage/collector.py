@@ -10,7 +10,6 @@ from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
 
 from dataguard.lineage.models import (
-    LineageStatus,
     LineageRun,
 )
 from dataguard.lineage.events import (

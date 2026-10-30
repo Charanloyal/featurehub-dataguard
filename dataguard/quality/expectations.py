@@ -5,7 +5,7 @@ Source of truth is always the DataGuard contract specification.
 """
 
 import uuid
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, Optional, Tuple
 import great_expectations as gx
 from great_expectations.expectations import (
     ExpectColumnToExist,

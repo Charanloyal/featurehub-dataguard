@@ -3,7 +3,7 @@ FeatureHub Feature Definitions Registry Catalog
 Defines 120+ distinct financial transaction & fraud detection features across 6 feature groups.
 """
 
-from typing import Dict, Any, List
+from typing import List
 from pydantic import BaseModel
 
 class FeatureDefinition(BaseModel):

@@ -6,7 +6,6 @@ Saves measured metrics and environment information to dataguard/benchmarks/schem
 """
 
 import sys
-import os
 import time
 import json
 import platform

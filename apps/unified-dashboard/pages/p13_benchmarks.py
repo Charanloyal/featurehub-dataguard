@@ -9,7 +9,6 @@ import pandas as pd
 from apps.unified_dashboard.services.platform_client import PlatformClient
 from apps.unified_dashboard.components.metric_cards import render_kpi_row
 from apps.unified_dashboard.utils.chart_helpers import create_stage_latency_chart
-from apps.unified_dashboard.utils.formatting import format_ms
 
 
 def render_page(client: PlatformClient, demo_mode: bool = False):
@@ -85,7 +84,7 @@ def render_page(client: PlatformClient, demo_mode: bool = False):
     with st.expander("⏱️ Measure Live Request Latency (Current Interactive Session)", expanded=True):
         col_m1, col_m2 = st.columns([1, 2])
         with col_m1:
-            test_target = st.selectbox("Live Test Endpoint", [
+            st.selectbox("Live Test Endpoint", [
                 "FeatureHub Online Features (/online/features)",
                 "ML Fraud Prediction (/predict)",
                 "Data Contracts Registry (/contracts)",
@@ -95,10 +94,9 @@ def render_page(client: PlatformClient, demo_mode: bool = False):
         with col_m2:
             if run_live_test:
                 import time
-                import requests
                 t_start = time.perf_counter()
                 try:
-                    res = client.get_system_health()
+                    client.get_system_health()
                     t_elapsed_ms = round((time.perf_counter() - t_start) * 1000, 2)
                     st.success(f"**Live Request Round-Trip Latency:** `{t_elapsed_ms} ms` (HTTP Client ↔ Platform Gateway)")
                     st.caption("Notice: Live network round-trip includes HTTP connection overhead and TLS termination, distinguishing it from local loopback benchmark latency.")
@@ -158,6 +156,6 @@ def render_page(client: PlatformClient, demo_mode: bool = False):
     with e2:
         st.markdown(f"**Python Runtime:** `Python {env.get('python_version', '3.13.9')}`")
     with e3:
-        st.markdown(f"**Processor:** `Intel Core Hybrid Architecture`")
+        st.markdown("**Processor:** `Intel Core Hybrid Architecture`")
     with e4:
-        st.markdown(f"**Datastores:** `PostgreSQL 16 & Redis 7.2`")
+        st.markdown("**Datastores:** `PostgreSQL 16 & Redis 7.2`")

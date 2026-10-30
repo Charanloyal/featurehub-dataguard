@@ -5,7 +5,6 @@ Monitors data reliability incidents, SLA violations, severity routing, and live 
 
 import streamlit as st
 import pandas as pd
-from datetime import datetime, timezone
 from apps.unified_dashboard.services.platform_client import PlatformClient
 from apps.unified_dashboard.components.metric_cards import render_kpi_row
 from apps.unified_dashboard.components.banners import get_status_badge_html
@@ -155,7 +154,7 @@ def render_page(client: PlatformClient, demo_mode: bool = False):
             can_ack = curr_status == "OPEN"
             if st.button("🟡 Acknowledge Incident (Start Triage)", disabled=not can_ack, use_container_width=True):
                 with st.spinner("Transitioning incident state in PostgreSQL..."):
-                    res = dg.acknowledge_incident(selected_inc_id, user="dashboard_engineer")
+                    dg.acknowledge_incident(selected_inc_id, user="dashboard_engineer")
                 st.success(f"Incident {selected_inc_id} successfully ACKNOWLEDGED.")
                 st.rerun()
 
@@ -164,6 +163,6 @@ def render_page(client: PlatformClient, demo_mode: bool = False):
             res_note = st.text_input("Resolution Note", value="Schema verified backward-compatible / quality verified", key="res_note")
             if st.button("🟢 Resolve Incident (Close Ticket)", disabled=not can_resolve, use_container_width=True):
                 with st.spinner("Transitioning incident state to RESOLVED in PostgreSQL..."):
-                    res = dg.resolve_incident(selected_inc_id, user="dashboard_engineer", resolution_notes=res_note)
+                    dg.resolve_incident(selected_inc_id, user="dashboard_engineer", resolution_notes=res_note)
                 st.success(f"Incident {selected_inc_id} successfully RESOLVED.")
                 st.rerun()

@@ -4,7 +4,6 @@ Validates dataset lineage, job registration, run lifecycle, graph traversal,
 column-level lineage, OpenLineage standard events, and incident correlation.
 """
 
-import uuid
 import pytest
 from datetime import datetime, timezone
 from pathlib import Path
@@ -12,9 +11,6 @@ from starlette.testclient import TestClient
 
 from dataguard.lineage.models import (
     LineageStatus,
-    LineageDataset,
-    LineageJob,
-    LineageRun,
     LineageGraphResponse
 )
 from dataguard.lineage.events import (
@@ -30,7 +26,7 @@ from dataguard.lineage.events import (
 from dataguard.lineage.repository import LineageRepository
 from dataguard.lineage.collector import LineageCollector
 from dataguard.lineage.service import LineageService
-from dataguard.incidents.models import Incident, IncidentStatus, IncidentSeverity
+from dataguard.incidents.models import IncidentStatus, IncidentSeverity
 from dataguard.incidents.repository import IncidentRepository
 from dataguard.incidents.manager import IncidentManager
 from dataguard.quality.models import QualityCheckResult, QualityStatus

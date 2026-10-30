@@ -11,7 +11,6 @@ Ensures:
 """
 
 import sys
-import os
 from pathlib import Path
 from datetime import datetime, timezone
 
@@ -22,9 +21,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "apps" / "public-api"))
 
 from demo_data import (
     DEMO_CUSTOMER_FEATURES,
-    DEMO_CONTRACTS,
-    DEMO_INCIDENTS,
-    DEMO_LINEAGE_MAP
+    DEMO_CONTRACTS
 )
 
 def reset_redis_demo_features():
@@ -78,7 +75,7 @@ def reset_contracts_and_schema():
         reg = ContractRegistryService()
         contracts = reg.list_contracts()
         print(f"  [+] Contracts verified: {len(contracts)} registered in system.")
-    except Exception as e:
+    except Exception:
         print(f"  [+] Contracts verified: {len(DEMO_CONTRACTS)} contracts available in fallback demo catalog.")
 
     print(f"  [+] Feature catalog verified: {len(FEATURE_CATALOG)} real features across 6 feature groups.")

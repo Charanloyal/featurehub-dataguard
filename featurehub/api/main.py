@@ -3,9 +3,9 @@ FeatureHub REST API Application
 FastAPI application delivering Feature Registry, Online/Offline Feature Retrieval, and Real-Time ML Inference.
 """
 
-from fastapi import FastAPI, HTTPException, Query, Response
+from fastapi import FastAPI, HTTPException, Response
 from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
+from typing import Optional
 from datetime import datetime, timezone
 import time
 from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST

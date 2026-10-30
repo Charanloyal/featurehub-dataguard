@@ -5,7 +5,7 @@ and severity classification for data contract schema changes.
 """
 
 from enum import Enum
-from typing import Tuple, Dict, Any, Optional
+from typing import Tuple, Dict, Optional
 
 class DiffSeverity(str, Enum):
     SAFE = "SAFE"
@@ -111,8 +111,8 @@ class TypeCompatibilityEngine:
 
         if old_norm == "bigint" and new_norm == "integer":
             return False, DiffSeverity.BREAKING, (
-                f"Narrowing type conversion: 'bigint' -> 'integer'. "
-                f"Large integers may cause overflow."
+                "Narrowing type conversion: 'bigint' -> 'integer'. "
+                "Large integers may cause overflow."
             )
 
         # Cross-domain incompatible transitions

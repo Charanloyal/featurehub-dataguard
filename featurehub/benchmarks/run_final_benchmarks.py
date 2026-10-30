@@ -11,7 +11,6 @@ Saves complete results to featurehub/benchmarks/final_results.json.
 """
 
 import sys
-import os
 import json
 import time
 import platform

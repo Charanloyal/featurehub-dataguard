@@ -8,11 +8,8 @@ from typing import List, Dict, Any, Optional
 from pathlib import Path
 
 from dataguard.incidents.models import (
-    Incident,
-    IncidentEvent,
     IncidentStatus,
     IncidentSeverity,
-    IncidentSummary,
     InvalidStateTransitionError
 )
 from dataguard.incidents.repository import IncidentRepository

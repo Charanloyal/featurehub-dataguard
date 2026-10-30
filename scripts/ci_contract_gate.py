@@ -26,7 +26,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from dataguard.ci.gate import CICDContractGatingEngine
-from dataguard.ci.models import GatingVerdict, PRGatingSummary
+from dataguard.ci.models import PRGatingSummary
 
 
 def get_git_modified_contracts(base_ref: str, contracts_dir: Path) -> List[str]:

@@ -3,7 +3,6 @@ Tests for Dashboard Error Handling & Graceful Degradation
 Ensures dashboard never crashes when an external endpoint or container is unreachable.
 """
 
-import pytest
 import sys
 from pathlib import Path
 
@@ -13,7 +12,6 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from apps.unified_dashboard.services.featurehub_client import FeatureHubClient
 from apps.unified_dashboard.services.dataguard_client import DataGuardClient
-from apps.unified_dashboard.services.platform_client import PlatformClient
 
 
 def test_featurehub_client_unreachable_api():

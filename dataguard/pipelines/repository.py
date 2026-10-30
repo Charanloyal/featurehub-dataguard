@@ -8,7 +8,7 @@ import json
 import logging
 from typing import List, Dict, Any, Optional
 from datetime import datetime, timezone
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
 
 from dataguard.contracts.registry import get_default_db_url, create_db_engine
 from dataguard.pipelines.models import (
@@ -367,7 +367,6 @@ class PipelineRepository:
             total_runs = run_counts[0] if run_counts else 0
             failed_runs = run_counts[1] if run_counts else 0
             success_runs = run_counts[2] if run_counts else 0
-            running_runs = run_counts[3] if run_counts else 0
 
             # 3. Pipeline states based on latest runs
             latest_status = conn.execute(text("""

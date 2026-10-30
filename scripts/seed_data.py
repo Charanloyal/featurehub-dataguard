@@ -5,7 +5,6 @@ Generates realistic entities (customers, accounts, merchants) and transactions o
 
 import os
 import random
-import uuid
 from datetime import datetime, timedelta, timezone
 import pandas as pd
 import numpy as np
@@ -137,7 +136,7 @@ def generate_seed_data():
     df_fraud_events.to_csv(os.path.join(DATA_DIR, "fraud_events.csv"), index=False)
     df_fraud_events.to_parquet(os.path.join(DATA_DIR, "fraud_events.parquet"), index=False)
 
-    print(f"Successfully generated:")
+    print("Successfully generated:")
     print(f"  - Customers: {len(df_customers)}")
     print(f"  - Accounts: {len(df_accounts)}")
     print(f"  - Merchants: {len(df_merchants)}")

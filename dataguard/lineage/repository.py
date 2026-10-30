@@ -5,7 +5,6 @@ Backed by PostgreSQL 16 with automatic transactional integrity and SQLite suppor
 """
 
 import json
-import os
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -19,10 +18,9 @@ from sqlalchemy import (
     Text,
     DateTime,
     Index,
-    select,
     desc
 )
-from sqlalchemy.orm import declarative_base, sessionmaker, Session
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 from dataguard.lineage.models import (
     LineageStatus,

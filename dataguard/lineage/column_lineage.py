@@ -4,7 +4,7 @@ Maps transformations and lineage between raw sources, cleaned datasets, and Feat
 Reflects actual feature computations and validations in the repository.
 """
 
-from typing import List, Dict, Any, Optional
+from typing import List, Dict
 from dataguard.lineage.events import ColumnLineageDatasetFacet, ColumnLineageField, ColumnLineageInputField
 
 

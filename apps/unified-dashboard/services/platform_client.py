@@ -410,7 +410,7 @@ class PlatformClient:
             inc_id = target["incident_id"]
             # Perform real acknowledge & resolution
             self.dg.acknowledge_incident(inc_id, user="recruiter_demo")
-            res = self.dg.resolve_incident(
+            self.dg.resolve_incident(
                 inc_id,
                 user="recruiter_demo",
                 resolution_notes="Root cause identified: upstream schema reverted. Verified compatible."

@@ -27,8 +27,7 @@ from sqlalchemy import (
     insert,
     update,
     func,
-    and_,
-    text
+    and_
 )
 from sqlalchemy.engine import Engine
 
@@ -75,7 +74,7 @@ def create_db_engine(db_url: str) -> Engine:
         try:
             import psycopg2  # noqa: F401
             engine = create_engine(db_url, pool_pre_ping=True)
-            with engine.connect() as conn:
+            with engine.connect():
                 pass
             return engine
         except Exception:

@@ -5,7 +5,6 @@ lifecycle transitions, audit logging, and Prometheus metrics.
 """
 
 import uuid
-import time
 from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
 
@@ -15,10 +14,8 @@ from dataguard.incidents.models import (
     Incident,
     IncidentEvent,
     IncidentStatus,
-    IncidentSeverity,
     IncidentEventType,
-    IncidentSummary,
-    InvalidStateTransitionError
+    IncidentSummary
 )
 from dataguard.incidents.severity import IncidentSeverityPolicy
 from dataguard.incidents.deduplication import compute_failure_signature

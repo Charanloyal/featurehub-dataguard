@@ -5,8 +5,7 @@ for schema adherence, feature freshness, null rates, distribution shifts, and Op
 """
 
 from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional
-import pandas as pd
+from typing import Dict
 
 try:
     from airflow import DAG
@@ -22,12 +21,8 @@ from pipelines.airflow.utils.task_helpers import (
     task_finalize_pipeline,
     on_pipeline_failure_callback
 )
-from dataguard.contracts.registry import ContractRegistryService
-from dataguard.quality.runner import DataQualityRunner
-from dataguard.quality.models import QualityStatus, QualityCheckResult
 from dataguard.quality.datasets import DatasetCatalog
 from dataguard.lineage.collector import LineageCollector
-from dataguard.incidents.manager import IncidentManager
 from dataguard.pipelines.freshness import FreshnessMonitorService
 
 PIPELINE_ID = "feature_quality_pipeline"

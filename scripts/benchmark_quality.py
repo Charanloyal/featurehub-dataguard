@@ -50,9 +50,9 @@ def get_system_hardware_info():
 
 def benchmark_size(runner: DataQualityRunner, dataset_name: str, num_rows: int, iterations: int = 5):
     """Executes benchmark iterations for a given dataset size and computes statistical metrics."""
-    print(f"\n========================================================")
+    print("\n========================================================")
     print(f"Benchmarking {dataset_name} ({num_rows:,} rows) - {iterations} iterations")
-    print(f"========================================================")
+    print("========================================================")
 
     # Pre-generate dataset to measure validation execution only
     print(f"Generating synthetic dataset of {num_rows:,} rows...")

@@ -12,38 +12,24 @@ Comprehensive tests validating:
 8. FastAPI pipeline endpoints and Prometheus observability metrics
 """
 
-import os
 import uuid
 import pytest
-import pandas as pd
 from datetime import datetime, timezone
 from fastapi.testclient import TestClient
 
 from dataguard.pipelines.models import (
     PipelineConfig,
-    PipelineRun,
     PipelineStatus,
-    PipelineRunStatus,
-    PipelineHealth,
-    PipelineSummary
+    PipelineRunStatus
 )
 from dataguard.pipelines.registry import PipelineRegistryService
 from dataguard.pipelines.repository import PipelineRepository
 from dataguard.pipelines.runner import (
     DataGuardPipelineOrchestrator,
-    PipelineExecutionError,
     TransientInfrastructureError
 )
 from dataguard.pipelines.freshness import FreshnessMonitorService
-from dataguard.contracts.registry import ContractRegistryService
-from dataguard.quality.datasets import DatasetCatalog
 from dataguard.api.main import app
-from dataguard.metrics import (
-    PIPELINE_RUNS_TOTAL,
-    PIPELINE_SUCCESS_TOTAL,
-    PIPELINE_FAILURE_TOTAL,
-    PIPELINE_QUALITY_FAILURES_TOTAL
-)
 
 
 @pytest.fixture(scope="module")

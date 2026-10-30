@@ -5,13 +5,11 @@ Covers contract registration, versioning, discovery, validation, filtering, dupl
 
 import pytest
 import yaml
-from pathlib import Path
 from fastapi.testclient import TestClient
 
 from dataguard.contracts.registry import (
     ContractRegistryService, 
-    DuplicateVersionError, 
-    ContractNotFoundError
+    DuplicateVersionError
 )
 from dataguard.contracts.validator import ContractValidationError
 from dataguard.api.main import app

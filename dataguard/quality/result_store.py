@@ -22,8 +22,7 @@ from sqlalchemy import (
     ForeignKey,
     select,
     desc,
-    func,
-    and_
+    func
 )
 from sqlalchemy.engine import Engine
 

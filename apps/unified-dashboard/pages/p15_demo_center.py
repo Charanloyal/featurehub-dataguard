@@ -6,7 +6,7 @@ One-click interactive execution of the 6 core platform reliability scenarios.
 import streamlit as st
 import pandas as pd
 from apps.unified_dashboard.services.platform_client import PlatformClient
-from apps.unified_dashboard.components.banners import render_decision_banner, get_status_badge_html
+from apps.unified_dashboard.components.banners import get_status_badge_html
 from apps.unified_dashboard.utils.formatting import format_ms
 
 

@@ -5,22 +5,18 @@ lifecycle state transitions, audit trail events, MTTA/MTTR calculations, filteri
 """
 
 import pytest
-from datetime import datetime, timezone, timedelta
 from fastapi.testclient import TestClient
 
 from dataguard.api.main import app
 from dataguard.contracts.registry import ContractRegistryService
 from dataguard.quality.models import QualityCheckResult, QualityStatus
 from dataguard.incidents.models import (
-    Incident,
-    IncidentEvent,
     IncidentStatus,
     IncidentSeverity,
     IncidentEventType,
     InvalidStateTransitionError
 )
 from dataguard.incidents.severity import IncidentSeverityPolicy
-from dataguard.incidents.deduplication import compute_failure_signature
 from dataguard.incidents.repository import IncidentRepository
 from dataguard.incidents.manager import IncidentManager
 
@@ -377,7 +373,7 @@ def test_filter_by_severity(test_mgr):
         status=QualityStatus.FAIL, severity="MEDIUM", observed_value="x", expected_value="y", success=False
     )
     inc_crit = test_mgr.handle_check_failure(failing_crit, dataset="orders")
-    inc_med = test_mgr.handle_check_failure(failing_med, dataset="orders")
+    test_mgr.handle_check_failure(failing_med, dataset="orders")
 
     crits = test_mgr.list_incidents(severity="CRITICAL")
     assert any(i.incident_id == inc_crit.incident_id for i in crits)

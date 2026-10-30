@@ -3,10 +3,8 @@ Real-Time Feature Retrieval & ML Inference Engine
 Retrieves online feature vectors from Redis at request time and computes real-time fraud probability scores.
 """
 
-import os
 import json
 import pandas as pd
-import numpy as np
 from pathlib import Path
 from typing import Dict, Any, Optional
 

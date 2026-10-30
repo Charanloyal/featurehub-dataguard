@@ -5,7 +5,7 @@ Provides automated registration into PostgreSQL pipeline_metadata.
 """
 
 from typing import List, Dict, Optional, Any
-from dataguard.pipelines.models import PipelineConfig, PipelineStatus
+from dataguard.pipelines.models import PipelineConfig
 from dataguard.pipelines.repository import PipelineRepository
 
 

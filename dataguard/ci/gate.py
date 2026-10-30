@@ -4,12 +4,7 @@ Orchestrates automated pre-merge gating for Pull Requests:
 Contract Validation -> Schema Diff Engine -> Data Quality Regression -> Merge Verdict.
 """
 
-import os
-import sys
-import yaml
-import subprocess
 import logging
-from pathlib import Path
 from typing import Dict, Any, List, Optional, Tuple
 
 from dataguard.ci.models import (
@@ -177,8 +172,8 @@ class CICDContractGatingEngine:
             )
         elif "ENUM" in ch_type and "REMOVED" in ch_type:
             return (
-                f"Removing allowed enum values will cause validation failures for existing events. "
-                f"Deprecate values without removing them immediately."
+                "Removing allowed enum values will cause validation failures for existing events. "
+                "Deprecate values without removing them immediately."
             )
         elif "CONSTRAINT" in ch_type or "RANGE" in ch_type:
             return "Tightened bounds may reject edge-case values. Verify historical distribution bounds."

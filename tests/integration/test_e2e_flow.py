@@ -3,13 +3,9 @@ End-to-End Platform Integration Test Suite
 Validates seed generation, feature computation, point-in-time correctness, model inference, and schema diff engine.
 """
 
-import pytest
-import os
-import pandas as pd
 from pathlib import Path
 
 from featurehub.computation.engine import compute_offline_features
-from featurehub.point_in_time.pit_engine import PointInTimeJoinEngine
 from featurehub.materialization.service import FeatureMaterializer
 from featurehub.inference.predictor import RealTimePredictor
 from dataguard.schema.diff import SchemaDiffEngine
@@ -53,5 +49,5 @@ def test_full_platform_e2e_pipeline():
         "columns": [] # Removed column
     }
     diff_res = SchemaDiffEngine.compare_contracts(base_c, target_breaking)
-    assert diff_res["is_breaking"] == True
+    assert diff_res["is_breaking"] is True
     assert diff_res["classification"] == "BREAKING"

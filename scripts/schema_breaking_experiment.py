@@ -20,7 +20,6 @@ blocked_breaking_changes / total_breaking_changes * 100
 """
 
 import sys
-import json
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve().parent.parent

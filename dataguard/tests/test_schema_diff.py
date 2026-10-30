@@ -6,10 +6,9 @@ range constraints, enum drifts, table schema inspections, and FastAPI endpoints.
 
 import sqlite3
 import pytest
-from pathlib import Path
 from fastapi.testclient import TestClient
 
-from dataguard.schema.diff import SchemaDiffEngine, DiffSeverity
+from dataguard.schema.diff import SchemaDiffEngine
 from dataguard.contracts.registry import ContractRegistryService
 from dataguard.api.main import app
 

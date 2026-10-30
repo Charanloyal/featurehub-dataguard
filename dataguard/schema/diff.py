@@ -10,8 +10,7 @@ Classifies modifications as SAFE, WARNING, or BREAKING.
 import time
 import sqlite3
 from pathlib import Path
-from typing import Dict, Any, List, Optional, Union
-from datetime import datetime
+from typing import Dict, Any, List, Optional
 
 from dataguard.schema.models import (
     DiffSeverity,
@@ -20,7 +19,6 @@ from dataguard.schema.models import (
     SchemaDiffResult
 )
 from dataguard.schema.type_compatibility import TypeCompatibilityEngine
-from dataguard.schema.report import generate_human_report
 from dataguard.metrics import (
     SCHEMA_DIFF_EVALUATIONS_TOTAL,
     SCHEMA_DRIFT_DETECTED_TOTAL,

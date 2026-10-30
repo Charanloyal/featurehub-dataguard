@@ -4,15 +4,11 @@ Tests 3-stage validation: Contract Structural Validation -> Schema Diff -> Quali
 """
 
 import copy
-import pytest
 from pathlib import Path
 from fastapi.testclient import TestClient
 
 from dataguard.ci.models import (
-    GatingVerdict,
-    GatingChange,
-    ContractGatingResult,
-    PRGatingSummary
+    GatingVerdict
 )
 from dataguard.ci.gate import CICDContractGatingEngine
 from dataguard.api.main import app

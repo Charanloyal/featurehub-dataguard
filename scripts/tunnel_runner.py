@@ -7,7 +7,6 @@ Spawns and automatically monitors/restarts localtunnel connections for the Unifi
 import subprocess
 import sys
 import time
-import os
 
 def run_tunnel(port: int, subdomain: str):
     print(f"[*] Starting localtunnel on port {port} with subdomain '{subdomain}'...")

@@ -7,7 +7,7 @@ import sqlite3
 from typing import List, Optional, Dict, Any
 from pathlib import Path
 
-from featurehub.feature_definitions.definitions import FEATURE_CATALOG, FeatureDefinition, get_all_features
+from featurehub.feature_definitions.definitions import FEATURE_CATALOG, FeatureDefinition
 
 DB_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "platform_dev.db"
 

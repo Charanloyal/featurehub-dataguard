@@ -4,7 +4,6 @@ Loads offline Parquet feature store tables and materializes feature vectors into
 Supports full backfill and incremental windowed materialization with idempotency and SLA tracking.
 """
 
-import os
 import uuid
 import sqlite3
 from datetime import datetime, timezone

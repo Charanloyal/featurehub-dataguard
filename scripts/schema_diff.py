@@ -20,7 +20,7 @@ if str(project_root) not in sys.path:
 from dataguard.contracts.registry import ContractRegistryService, ContractNotFoundError
 from dataguard.schema.diff import SchemaDiffEngine
 from dataguard.schema.report import generate_human_report
-from dataguard.schema.models import DiffSeverity, ChangeType
+from dataguard.schema.models import DiffSeverity
 
 
 def format_cli_output(diff_res) -> str:

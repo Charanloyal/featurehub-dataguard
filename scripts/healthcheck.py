@@ -4,10 +4,7 @@ Reports status, health, and operational diagnostics across platform components.
 """
 
 import sys
-import os
-import json
 import sqlite3
-from datetime import datetime, timezone
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,7 +29,7 @@ def check_health():
             report.append({"service": "FeatureHub API", "status": "UP", "health": "HEALTHY", "reason": "Endpoint http://127.0.0.1:8010/health returned HTTP 200 OK"})
         else:
             report.append({"service": "FeatureHub API", "status": "DEGRADED", "health": "UNHEALTHY", "reason": f"Returned status code {r.status_code}"})
-    except Exception as e:
+    except Exception:
         report.append({"service": "FeatureHub API", "status": "OFFLINE", "health": "STANDBY", "reason": "FastAPI server not currently running on port 8010"})
 
     # 2. DataGuard API Health Endpoint
@@ -42,7 +39,7 @@ def check_health():
             report.append({"service": "DataGuard API", "status": "UP", "health": "HEALTHY", "reason": "Endpoint http://127.0.0.1:8001/health returned HTTP 200 OK"})
         else:
             report.append({"service": "DataGuard API", "status": "DEGRADED", "health": "UNHEALTHY", "reason": f"Returned status code {r.status_code}"})
-    except Exception as e:
+    except Exception:
         report.append({"service": "DataGuard API", "status": "OFFLINE", "health": "STANDBY", "reason": "FastAPI server not currently running on port 8001"})
 
     # 3. PostgreSQL DataGuard Contract Registry

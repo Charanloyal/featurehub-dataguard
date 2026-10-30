@@ -11,7 +11,6 @@ Outputs markdown report to docs/benchmarks/incident_triage_experiment.md.
 
 import sys
 import time
-import json
 import re
 import numpy as np
 from pathlib import Path
@@ -51,7 +50,7 @@ def baseline_triage_diagnostic():
     t0 = time.perf_counter()
     # Step 1: Scan logs
     lines = SAMPLE_LOG_TEXT.splitlines()
-    error_lines = [l for l in lines if "ERROR" in l or "ValidationError" in l]
+    _error_lines = [line for line in lines if "ERROR" in line or "ValidationError" in line]
 
     # Step 2 & 3: Regex scan for dataset and pipeline
     dataset_match = re.search(r"target table:\s*([a-zA-Z0-9_]+)", SAMPLE_LOG_TEXT)

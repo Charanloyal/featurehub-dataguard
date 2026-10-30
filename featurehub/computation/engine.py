@@ -4,10 +4,7 @@ Computes offline features from raw transaction entity events using fast vectoriz
 Generates Parquet historical offline feature stores indexed by entity_id and feature_timestamp.
 """
 
-import os
-from datetime import datetime, timezone
 import pandas as pd
-import numpy as np
 from pathlib import Path
 from typing import Optional, Dict
 
@@ -37,12 +34,8 @@ def compute_offline_features(as_of_timestamp: Optional[str] = None) -> Dict[str,
     
     # Calculate cutoff masks relative to max_global_time
     t_1h = max_global_time - pd.Timedelta(hours=1)
-    t_6h = max_global_time - pd.Timedelta(hours=6)
-    t_12h = max_global_time - pd.Timedelta(hours=12)
     t_24h = max_global_time - pd.Timedelta(hours=24)
-    t_3d = max_global_time - pd.Timedelta(days=3)
     t_7d = max_global_time - pd.Timedelta(days=7)
-    t_14d = max_global_time - pd.Timedelta(days=14)
     t_30d = max_global_time - pd.Timedelta(days=30)
 
     df_txns['is_failed'] = (df_txns['status'] == 'FAILED').astype(int)

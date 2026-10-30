@@ -8,19 +8,18 @@ import time
 import uuid
 import logging
 from typing import Dict, Any, Optional
-from datetime import datetime, timezone
 
 from dataguard.contracts.registry import ContractRegistryService
 from dataguard.schema.diff import SchemaDiffEngine
 from dataguard.schema.models import DiffSeverity
 from dataguard.quality.runner import DataQualityRunner
-from dataguard.quality.models import QualityRunResult, QualityStatus, QualityCheckResult
+from dataguard.quality.models import QualityStatus, QualityCheckResult
 from dataguard.quality.datasets import DatasetCatalog
 from dataguard.lineage.collector import LineageCollector
 from dataguard.incidents.manager import IncidentManager
 from dataguard.pipelines.repository import PipelineRepository
 from dataguard.pipelines.models import PipelineRunStatus
-from dataguard.pipelines.runner import DataGuardPipelineOrchestrator, PipelineExecutionError
+from dataguard.pipelines.runner import DataGuardPipelineOrchestrator
 
 logger = logging.getLogger("dataguard.airflow.tasks")
 
@@ -152,7 +151,6 @@ def task_validate_schema(pipeline_id: str, dataset: str, **context) -> Dict[str,
         
         # Create incident
         manager = IncidentManager()
-        run_id = ti.xcom_pull(task_ids="start_pipeline", key="run_id") if ti else None
         manager.handle_check_failure(
             check=QualityCheckResult(
                 check_name=f"schema_drift_{dataset}",

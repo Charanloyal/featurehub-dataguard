@@ -5,7 +5,6 @@ Handles low-latency key-value writes and reads for real-time feature retrieval d
 
 import os
 import json
-import time
 from typing import Dict, Any, Optional, List
 import redis
 from datetime import datetime, timezone
@@ -23,7 +22,8 @@ class RedisOnlineStore:
 
     def _connect(self):
         for h in [self.host, "127.0.0.1", "localhost"]:
-            if not h: continue
+            if not h:
+                continue
             try:
                 self.client = redis.Redis(
                     host=h,
@@ -93,7 +93,7 @@ class RedisOnlineStore:
         data = json.loads(json_str)
         
         # Calculate freshness in minutes
-        feat_time = pd.to_datetime(data["feature_timestamp"], utc=True) if "pd" in globals() else datetime.fromisoformat(data["feature_timestamp"].replace('Z', '+00:00'))
+        feat_time = datetime.fromisoformat(data["feature_timestamp"].replace('Z', '+00:00'))
         now = datetime.now(timezone.utc)
         freshness_minutes = round((now - feat_time).total_seconds() / 60.0, 2)
         data["freshness_minutes"] = max(0.0, freshness_minutes)

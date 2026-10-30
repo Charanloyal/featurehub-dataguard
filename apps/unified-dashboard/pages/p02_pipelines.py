@@ -79,7 +79,7 @@ def render_page(client: PlatformClient, demo_mode: bool = False):
         st.markdown(f"**Schedule:** `{meta.get('schedule', '0 */2 * * *')}`")
     with mcol3:
         st.markdown(f"**Freshness SLA:** `{meta.get('freshness_sla_minutes', 60)} minutes`")
-        st.markdown(f"**Target Store:** `Redis + Parquet`")
+        st.markdown("**Target Store:** `Redis + Parquet`")
     with mcol4:
         latest_status = recent_runs[0].get("status", "SUCCESS") if recent_runs else "UNKNOWN"
         st.markdown(f"**Latest Status:** {get_status_badge_html(latest_status)}", unsafe_allow_html=True)

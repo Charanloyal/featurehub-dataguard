@@ -5,7 +5,6 @@ Interactive schema comparison evaluating Pull Request modifications into SAFE, W
 
 import streamlit as st
 import pandas as pd
-import json
 import copy
 from apps.unified_dashboard.services.platform_client import PlatformClient
 from apps.unified_dashboard.components.banners import render_decision_banner

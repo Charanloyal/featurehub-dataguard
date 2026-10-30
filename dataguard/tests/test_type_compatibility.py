@@ -3,7 +3,6 @@ Unit tests for DataGuard Type Compatibility Engine.
 Verifies type normalization, safe widening, narrowing prevention, and cross-domain compatibility.
 """
 
-import pytest
 from dataguard.schema.type_compatibility import TypeCompatibilityEngine, DiffSeverity
 
 def test_identical_types_are_safe():

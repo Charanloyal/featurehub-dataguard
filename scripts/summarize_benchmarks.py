@@ -3,7 +3,6 @@ Summarize Benchmarks and Export CV Metrics
 Reads output from featurehub and dataguard benchmark suites to construct docs/CV_METRICS.md.
 """
 
-import os
 import json
 import platform
 from datetime import datetime, timezone
