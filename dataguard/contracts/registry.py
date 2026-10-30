@@ -71,16 +71,18 @@ def create_db_engine(db_url: str) -> Engine:
     between psycopg2 and pg8000 for maximum platform compatibility (Windows/Linux/Docker).
     """
     if db_url.startswith("postgresql://") or db_url.startswith("postgres://"):
+        # Name the driver explicitly: SQLAlchemy 2.1 maps a bare postgresql:// URL to psycopg 3,
+        # which is not a dependency of this project.
+        location = db_url.split("://", 1)[1]
         try:
             import psycopg2  # noqa: F401
-            engine = create_engine(db_url, pool_pre_ping=True)
+            engine = create_engine(f"postgresql+psycopg2://{location}", pool_pre_ping=True)
             with engine.connect():
                 pass
             return engine
         except Exception:
             # Fall back to pure-Python pg8000 driver (handles Windows AppLocker/DLL policies)
-            pg8000_url = db_url.replace("postgresql://", "postgresql+pg8000://", 1).replace("postgres://", "postgresql+pg8000://", 1)
-            return create_engine(pg8000_url, pool_pre_ping=True)
+            return create_engine(f"postgresql+pg8000://{location}", pool_pre_ping=True)
 
     return create_engine(db_url)
 

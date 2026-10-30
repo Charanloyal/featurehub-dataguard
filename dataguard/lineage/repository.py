@@ -162,16 +162,16 @@ class LineageRepository:
             from dataguard.contracts.registry import get_default_db_url
             self.database_url = get_default_db_url()
 
-        connect_args = {}
         if self.database_url.startswith("sqlite"):
-            connect_args = {"check_same_thread": False}
-
-        self.engine = create_engine(
-            self.database_url,
-            echo=False,
-            connect_args=connect_args,
-            pool_pre_ping=True
-        )
+            self.engine = create_engine(
+                self.database_url,
+                echo=False,
+                connect_args={"check_same_thread": False},
+                pool_pre_ping=True
+            )
+        else:
+            from dataguard.contracts.registry import create_db_engine
+            self.engine = create_db_engine(self.database_url)
         self.SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
         self._init_db()
 

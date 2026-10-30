@@ -113,7 +113,9 @@ class CICDContractGatingEngine:
         # ----------------------------------------------------------------------
         # Stage 3: Data Quality Regression Testing
         # ----------------------------------------------------------------------
-        if validate_quality and not result.is_breaking:
+        # Only datasets with contract-shaped sample data can be scored; scoring a placeholder frame
+        # would report a regression for every contract without sample data. Those stay unscored (N/A).
+        if validate_quality and not result.is_breaking and DatasetCatalog.has_sample_data(ds_name):
             try:
                 sample_df = DatasetCatalog.load_dataset(ds_name)
                 if sample_df is not None and not sample_df.empty:

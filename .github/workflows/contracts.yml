@@ -66,5 +66,5 @@ jobs:
       - name: Run CI Gating Verification Tests
         if: always()
         run: |
-          pytest dataguard/tests/test_ci_gating.py -v
+          python -m pytest dataguard/tests/test_ci_gating.py -v
 
